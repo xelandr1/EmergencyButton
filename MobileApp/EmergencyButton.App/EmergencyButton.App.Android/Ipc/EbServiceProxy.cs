@@ -3,10 +3,11 @@ using Android.Content.PM;
 using Android.Support.V4.Content;
 using System;
 using EmergencyButton.App.Droid.Common;
+using EmergencyButton.App.Droid.EbService;
 
 namespace EmergencyButton.App.Droid.Ipc
 {
-    public class EbServiceIpcService
+    public class EbServiceProxy:IEmergencyButtonService
     {
         public bool IsConnected { get; private set; }
 
@@ -40,7 +41,7 @@ namespace EmergencyButton.App.Droid.Ipc
         }
 
 
-            public EbServiceIpcService(Context context)
+            public EbServiceProxy(Context context)
         {
             IsConnected = false;
             _context = new WeakReference<Context>(context);
@@ -69,5 +70,9 @@ namespace EmergencyButton.App.Droid.Ipc
             return permissionCheck == Permission.Granted;
         }
 
+        public string TestCall(string message)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

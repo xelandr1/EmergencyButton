@@ -6,7 +6,7 @@ namespace EmergencyButton.App.Droid.Instrumentation
 {
     public static class Logger
     {
-        public static string SubsystemId = "EmergencyButton.Service";
+        public static string SubsystemId = "EmergencyButton.App";
 
         public static LogEntry leInformationTemplate = new LogEntry
             {SubsystemId = SubsystemId, Severity = TraceEventType.Information};

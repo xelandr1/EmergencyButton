@@ -69,7 +69,7 @@
     <Compile Include="Instrumentation\InstrumentationService.cs" />
     <Compile Include="Instrumentation\Logger.cs" />
     <Compile Include="Ipc\Class1.cs" />
-    <Compile Include="Ipc\EbServiceIpcService.cs" />
+    <Compile Include="Ipc\EbServiceProxy.cs" />
     <Compile Include="Ipc\IncomingHandler.cs" />
     <Compile Include="Ipc\IpcRoutines.cs" />
     <Compile Include="MainActivity.cs" />

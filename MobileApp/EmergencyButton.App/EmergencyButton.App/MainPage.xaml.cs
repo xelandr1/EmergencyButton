@@ -16,6 +16,13 @@ namespace EmergencyButton.App
             TestClicked?.Invoke(this, new EventsArgs<int>(0));
         }
 
+        private void StartService_OnClicked(object sender, EventArgs e)
+        {
+            TestClicked?.Invoke(this, new EventsArgs<int>(0));
+        }
+
+
+
         public event EventsHandler<int> TestClicked;
     }
 }

@@ -8,6 +8,9 @@
 
         public static string TestResponseKey = "TestResponseKey";
 
+        public const string NeedOpenNotifications = "opennotifications";
+
+        public const string EmergencyButtonServiceNotification = "emergencybutton_service_notification";
 
     }
 }
