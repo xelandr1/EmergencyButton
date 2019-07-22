@@ -12,5 +12,8 @@
 
         public const string EmergencyButtonServiceNotification = "emergencybutton_service_notification";
 
+        public const string ACTION_START_SERVICE = "emergencybuttonservice.action.START_SERVICE";
+
+
     }
 }

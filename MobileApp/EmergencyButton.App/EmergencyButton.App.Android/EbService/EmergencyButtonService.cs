@@ -13,10 +13,11 @@ using EmergencyButton.App.Droid.Common;
 
 namespace EmergencyButton.App.Droid.EbService
 {
-    [Service(Name = "com.xelandr.emergencybuttonservice",
-        Exported = true,
-        Permission = "com.xelandr.emergencybuttonservice.REQUEST_TIMESTAMP",
-        Process = "com.xelandr.emergencybuttonservice.timestampservice_process")]
+    //[Service(Name = "com.xelandr.emergencybuttonservice",
+    //    Exported = true,
+    //    Permission = "com.xelandr.emergencybuttonservice.REQUEST_TIMESTAMP",
+    //    Process = "com.xelandr.emergencybuttonservice.timestampservice_process")]
+    [Service]
     public class EmergencyButtonService : global::Android.App.Service, IEmergencyButtonService, IService
     {
         private readonly IncomingHandler _inHandler = new IncomingHandler();

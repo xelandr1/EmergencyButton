@@ -1,7 +1,13 @@
 ﻿using System;
 using Android.App;
+using Android.Content;
 using Android.OS;
 using Android.Runtime;
+using EmergencyButton.App.Droid.Common;
+using EmergencyButton.App.Droid.Instrumentation;
+using EmergencyButton.App.Service;
+using EmergencyButton.Core.ComponentModel;
+using EmergencyButton.Core.Instrumentation;
 
 namespace EmergencyButton.App.Droid
 {
@@ -21,14 +27,20 @@ namespace EmergencyButton.App.Droid
         {
             base.OnCreate();
             RegisterActivityLifecycleCallbacks(this);
-            //A great place to initialize Xamarin.Insights and Dependency Services!
+
+
+            if (Singleton.InstrumentationService == null)
+                Singleton.Services.RegisterService<IInstrumentationService>(new InstrumentationService());
+
+
+
         }
 
         public void OnActivityCreated(Activity activity, Bundle savedInstanceState)
         {
-            //if(activity is MainPage)
+            //if (activity is MainPage)
             //    ((MainPage)activity).TestClicked += MainApplication_TestClicked;
-           
+
         }
 
         private void MainApplication_TestClicked(object sender, Core.ComponentModel.Event.EventsArgs<int> args)
@@ -60,6 +72,16 @@ namespace EmergencyButton.App.Droid
         public void OnActivityStopped(Activity activity)
         {
 
+        }
+
+        public void StartService()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ServiceInvokeTest()
+        {
+            throw new NotImplementedException();
         }
     }
 }
