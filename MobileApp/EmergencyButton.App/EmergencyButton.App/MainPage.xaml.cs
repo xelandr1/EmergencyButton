@@ -12,6 +12,25 @@ namespace EmergencyButton.App
         public MainPage()
         {
             InitializeComponent();
+
+            Singleton.GetService<IResumeSupportService>().StateChanged = (sender, currentState, previousState) =>
+            {
+                // Do not reinit when app was "home button pressed"
+                if (currentState == ResumeSupportState.Paused)
+                {
+                  //  DialogView.CloseAllDialogs();
+                }
+
+                if (previousState == ResumeSupportState.Closed || previousState == ResumeSupportState.Stopped)
+                {
+                    Initialize();
+                }
+            };
+        }
+
+        private async void Initialize()
+        {
+            await Singleton.GetService<IRuntimePermissionsHandler>().TryGrantRequiredPermissions();
         }
 
         private void Button_OnClicked(object sender, EventArgs e)

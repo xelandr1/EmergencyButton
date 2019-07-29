@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EmergencyButton.App.Service;
+using EmergencyButton.Core.Instrumentation;
 using Xamarin.Forms.Platform.Android;
 
 namespace EmergencyButton.App.Droid.Services
@@ -64,6 +66,51 @@ namespace EmergencyButton.App.Droid.Services
             _callbacks.Add(code, (res) => completionSource.SetResult(res));
             return await completionSource.Task;
         }
+
+        public async Task TryGrantRequiredPermissions()
+        {
+            try
+            {
+                var permissionsHandler = this;
+
+                if (!permissionsHandler.IsPermissionGranted(permissionsHandler.ReadWriteExternalStoragePermissionsIds))
+                {
+                    await permissionsHandler.TryGrantPermissions(permissionsHandler.ReadWriteExternalStoragePermissionsIds);
+                }
+
+                //if (!permissionsHandler.IsPermissionGranted(permissionsHandler.GpsPermissionsIds))
+                //{
+                //    await permissionsHandler.TryGrantPermissions(permissionsHandler.GpsPermissionsIds);
+                //}
+
+                //if (!permissionsHandler.IsPermissionGranted(permissionsHandler.AutoStartPermissionsIds))
+                //{
+                //    await permissionsHandler.TryGrantPermissions(permissionsHandler.AutoStartPermissionsIds);
+                //}
+
+                //if (!permissionsHandler.IsPermissionGranted(permissionsHandler.PhoneStatePermissionsIds))
+                //{
+                //    await permissionsHandler.TryGrantPermissions(permissionsHandler.PhoneStatePermissionsIds);
+                //}
+
+                //if (!permissionsHandler.IsPermissionGranted(permissionsHandler.WakeLockPermissionsIds))
+                //{
+                //    await permissionsHandler.TryGrantPermissions(permissionsHandler.WakeLockPermissionsIds);
+                //}
+
+                //if (!permissionsHandler.IsPermissionGranted(permissionsHandler.StartForegroundServicePermissionsIds))
+                //{
+                //    await permissionsHandler.TryGrantPermissions(permissionsHandler.StartForegroundServicePermissionsIds);
+                //}
+            }
+            catch (Exception e)
+            {
+                Logger.Error("Error while permisions request", nameof(RuntimePermissionsHandler), e);
+            }
+        }
+
+
+
     }
 
 

@@ -5,9 +5,12 @@ using Android.OS;
 using Android.Runtime;
 using EmergencyButton.App.Droid.Common;
 using EmergencyButton.App.Droid.Instrumentation;
+using EmergencyButton.App.Droid.Services;
 using EmergencyButton.App.Service;
+using EmergencyButton.Core.Common;
 using EmergencyButton.Core.ComponentModel;
 using EmergencyButton.Core.Instrumentation;
+using Constants = EmergencyButton.App.Droid.Common.Constants;
 
 namespace EmergencyButton.App.Droid
 {
@@ -19,21 +22,20 @@ namespace EmergencyButton.App.Droid
         public MainApplication(IntPtr handle, JniHandleOwnership transer)
             : base(handle, transer)
         {
-            // Do nothing
+            SubsystemIdentity.SubsystemId = Constants.EmergencyButtonApp_SubsystemName;
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2140:TransparentMethodsMustNotReferenceCriticalCodeFxCopRule")]
         public override void OnCreate()
         {
             base.OnCreate();
+
+            SingletonServicesInitializer.Initialize(this);
+            var ttt = SubsystemIdentity.InstanceId;
+
+            Logger.Information(nameof(MainApplication) + " OnCreate", nameof(MainApplication));
+
             RegisterActivityLifecycleCallbacks(this);
-
-
-            if (Singleton.InstrumentationService == null)
-                Singleton.Services.RegisterService<IInstrumentationService>(new InstrumentationService());
-
-
-
         }
 
         public void OnActivityCreated(Activity activity, Bundle savedInstanceState)
@@ -43,10 +45,6 @@ namespace EmergencyButton.App.Droid
 
         }
 
-        private void MainApplication_TestClicked(object sender, Core.ComponentModel.Event.EventsArgs<int> args)
-        {
-
-        }
 
         public void OnActivityDestroyed(Activity activity)
         {

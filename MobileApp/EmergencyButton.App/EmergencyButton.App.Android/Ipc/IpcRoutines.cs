@@ -24,7 +24,7 @@ namespace EmergencyButton.Core.Common.Droid.Ipc
             });
         }
 
-        public static void SetData<T>(T data, Message message, Messenger answerMessenger, ServiceOperation operation)
+        public static void SetData<T>(T data, Message message, Messenger answerMessenger, ServiceCommand operation)
         {
             if (data != null) message.Data.PutString("json", Serialize(data));
 
@@ -44,7 +44,7 @@ namespace EmergencyButton.Core.Common.Droid.Ipc
             return (Messenger) msg.Obj;
         }
 
-        public static void SendData<T>(T data, Messenger msgr, Messenger answerMessenger, ServiceOperation operation)
+        public static void SendData<T>(T data, Messenger msgr, Messenger answerMessenger, ServiceCommand operation)
         {
             if (msgr == null) return;
 
@@ -53,7 +53,7 @@ namespace EmergencyButton.Core.Common.Droid.Ipc
             msgr.Send(message);
         }
 
-        public static void SendData(Messenger msgr, Messenger answerMessenger, ServiceOperation operation)
+        public static void SendData(Messenger msgr, Messenger answerMessenger, ServiceCommand operation)
         {
             if (msgr == null) return;
 
@@ -63,7 +63,7 @@ namespace EmergencyButton.Core.Common.Droid.Ipc
             msgr.Send(message);
         }
 
-        public static void RaiseEvent<T>(T data, Messenger msgr, Messenger answerMessenger, ServiceOperation operation)
+        public static void RaiseEvent<T>(T data, Messenger msgr, Messenger answerMessenger, ServiceCommand operation)
         {
             if (msgr == null) return;
 
@@ -72,7 +72,7 @@ namespace EmergencyButton.Core.Common.Droid.Ipc
             msgr.Send(message);
         }
 
-        public static void RaiseEvent(Messenger msgr, Messenger answerMessenger, ServiceOperation operation)
+        public static void RaiseEvent(Messenger msgr, Messenger answerMessenger, ServiceCommand operation)
         {
             RaiseEvent<object>(null, msgr, answerMessenger, operation);
         }

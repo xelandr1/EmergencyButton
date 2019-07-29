@@ -9,7 +9,9 @@ using EmergencyButton.Core.ComponentModel.Service;
 using System;
 using Android.Graphics;
 using Android.Support.V4.App;
-using EmergencyButton.App.Droid.Common;
+using EmergencyButton.Core.Common;
+using EmergencyButton.Core.Instrumentation;
+using Constants = EmergencyButton.App.Droid.Common.Constants;
 
 namespace EmergencyButton.App.Droid.EbService
 {
@@ -26,8 +28,10 @@ namespace EmergencyButton.App.Droid.EbService
         private PowerManager.WakeLock _wakelock;
         private Notification _currentNotification;
 
-
-
+        public EmergencyButtonService()
+        {
+            SubsystemIdentity.SubsystemId = Constants.EmergencyButtonApp_SubsystemName;
+        }
 
 
         protected static ServiceState CurrentServiceState = ServiceState.None;
@@ -44,6 +48,8 @@ namespace EmergencyButton.App.Droid.EbService
 
         public override void OnCreate()
         {
+            Logger.Information(nameof(EmergencyButtonService) + " OnCreate", nameof(EmergencyButtonService));
+
             base.OnCreate();
             Activate();
         }
@@ -71,110 +77,18 @@ namespace EmergencyButton.App.Droid.EbService
             try
             {
                 _toActivityMessenger = IpcRoutines.GetAnswerMessenger(msg);
-                switch ((ServiceOperation) msg.What)
+                switch ((ServiceCommand) msg.What)
                 {
-                    case ServiceOperation.ExecuteScenario:
+                    case ServiceCommand.ExecuteScenario:
                     {
                         //_manager.ExecuteScenario(Utils.GetData<ExecuteScenarioArgs>(msg));
                         break;
                     }
-                    //case ServiceOperation.GetClientSettings:
-                    //    {
-                    //        _manager.GetClientSettings((settings) =>
-                    //        {
-                    //            Handle((messenger) => Utils.SendData(settings, messenger, _messenger, ServiceOperation.GetClientSettings));
-                    //        });
-                    //        break;
-                    //    }
-                    //case ServiceOperation.GetIsConnected:
-                    //    {
-                    //        _manager.IsConnected((isConnected) =>
-                    //        {
-                    //            Handle((messenger) => Utils.SendData(isConnected, messenger, _messenger, ServiceOperation.GetIsConnected));
-                    //        });
-                    //        break;
-                    //    }
-                    //case ServiceOperation.GetScenarios:
-                    //    {
-                    //        _manager.GetScenarios((scenarios) =>
-                    //        {
-                    //            Handle((messenger) => Utils.SendData(scenarios, messenger, _messenger, ServiceOperation.GetScenarios));
-                    //        });
-                    //        break;
-                    //    }
-                    //case ServiceOperation.GetNotifications:
-                    //    {
-                    //        _manager.GetNotifications((notifications) =>
-                    //            Handle((messenger) => Utils.SendData(notifications, messenger, _messenger, ServiceOperation.GetNotifications)));
-                    //        break;
-                    //    }
-                    //case ServiceOperation.SetClientSettings:
-                    //    {
-                    //        _manager.SetClientSettings(Utils.GetData<ConnectionCredentials>(msg));
-                    //        break;
-                    //    }
-                    //case ServiceOperation.ReConnect:
-                    //    {
-                    //        _manager.ReConnect();
-                    //        break;
-                    //    }
-                    //case ServiceOperation.RefreshIteration:
-                    //    {
-                    //        _manager.RefreshIteration();
-                    //        break;
-                    //    }
-                    //case ServiceOperation.ScreenOnActions:
-                    //    {
-                    //        _manager.ScreenOnActions();
-                    //        ReInitTimer();
-                    //        break;
-                    //    }
-                    //case ServiceOperation.GetListenerSettings:
-                    //    {
-                    //        _manager.GetListenerSettings((settings) =>
-                    //        {
-                    //            Handle((messenger) => Utils.SendData(settings, messenger, _messenger, ServiceOperation.GetListenerSettings));
-                    //        });
-                    //        break;
-                    //    }
-                    //case ServiceOperation.SetListenerSettings:
-                    //    {
-                    //        var settings = Utils.GetData<ListenerSettings>(msg);
-                    //        _manager.SetListenerSettings(settings);
-                    //        break;
-                    //    }
-                    //case ServiceOperation.GetGeolocationAccuracy:
-                    //    {
-                    //        _manager.GetGeolocationAccuracy((acc) =>
-                    //            Handle((messenger) => Utils.SendData(acc, messenger, _messenger, ServiceOperation.GetGeolocationAccuracy)));
-                    //        break;
-                    //    }
-                    //case ServiceOperation.SetGeolocationAccuracy:
-                    //    {
-                    //        _manager.SetGeolocationAccuracy(Utils.GetData<int>(msg));
-                    //        break;
-                    //    }
-                    //case ServiceOperation.GetGeolocationListenerSettings:
-                    //    {
-                    //        _manager.GetGeolocationListenerSettings((listenerSettings) =>
-                    //            Handle((messenger) => Utils.SendData(listenerSettings, messenger, _messenger, ServiceOperation.GetGeolocationListenerSettings)));
-                    //        break;
-                    //    }
-                    //case ServiceOperation.SetGeolocationListenerSettings:
-                    //    {
-                    //        _manager.SetGeolocationListenerSettings(Utils.GetData<GeolocationListenerSettings>(msg));
-                    //        break;
-                    //    }
-                    //case ServiceOperation.Close:
-                    //    {
-                    //        Stop();
-                    //        break;
-                    //    }
                 }
             }
             catch (Exception e)
             {
-                Logger.Error("Error in Handler_HasCome", nameof(EmergencyButtonService));
+                Logger.Error("Error in Handler_HasCome", nameof(EmergencyButtonService),e);
             }
         }
 
