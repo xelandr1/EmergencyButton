@@ -85,6 +85,7 @@ namespace EmergencyButton.Core.ComponentModel.Service
         [SecuritySafeCritical]
         public void UnRegisterService<TService>()
         {
+            if (_services.ContainsKey(typeof(TService)))
             _services.Remove(typeof(TService));
         }
 

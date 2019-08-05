@@ -10,7 +10,9 @@ using System;
 using System.Threading;
 using Android.Graphics;
 using Android.Support.V4.App;
-using EmergencyButton.App.Droid.Common;
+using EmergencyButton.Core.Common;
+using EmergencyButton.Core.Instrumentation;
+using Constants = EmergencyButton.App.Droid.Common.Constants;
 
 namespace EmergencyButton.App.Droid.EbService
 {
@@ -27,7 +29,11 @@ namespace EmergencyButton.App.Droid.EbService
         private PowerManager.WakeLock _wakelock;
         private Notification _currentNotification;
 
-        
+        public EmergencyButtonService()
+        {
+            SubsystemIdentity.SubsystemId = Constants.EmergencyButtonApp_SubsystemName;
+        }
+
 
         protected static ServiceState CurrentServiceState = ServiceState.None;
         private BoundServiceBinder _binder;
@@ -45,6 +51,8 @@ namespace EmergencyButton.App.Droid.EbService
 
         public override void OnCreate()
         {
+            Logger.Information(nameof(EmergencyButtonService) + " OnCreate", nameof(EmergencyButtonService));
+
             base.OnCreate();
             Activate();
         }
@@ -178,7 +186,7 @@ namespace EmergencyButton.App.Droid.EbService
             }
             catch (Exception e)
             {
-                Logger.Error("Error in Handler_HasCome", nameof(EmergencyButtonService));
+                Logger.Error("Error in Handler_HasCome", nameof(EmergencyButtonService),e);
             }
         }
 

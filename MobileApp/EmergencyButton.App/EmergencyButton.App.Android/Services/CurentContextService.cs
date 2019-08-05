@@ -8,7 +8,7 @@ namespace EmergencyButton.App.Droid.Services
         Context Context { get; set; }
     }
 
-    public class CurrentContextService: ICurrentContext
+    public class CurrentContextService : ICurrentContext
     {
         WeakReference<Context> _context;
 
@@ -22,12 +22,10 @@ namespace EmergencyButton.App.Droid.Services
                 {
                     return context;
                 }
+
                 return null;
             }
-            set
-            {
-                _context = new WeakReference<Context>(value);
-            }
+            set { _context = new WeakReference<Context>(value); }
         }
 
         public CurrentContextService(Context context)

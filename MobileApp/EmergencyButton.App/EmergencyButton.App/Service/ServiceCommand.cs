@@ -1,8 +1,8 @@
 ﻿namespace EmergencyButton.App.Service
 {
-    public enum ServiceOperation : byte
+    public enum ServiceCommand
     {
-        GetClientSettings = 1,
+        test = 1,
         SetClientSettings = 2,
         ExecuteScenario = 3,
         GetIsConnected = 4,

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace EmergencyButton.App.Droid.Services
+namespace EmergencyButton.App.Service
 {
     public interface IRuntimePermissionsHandler
     {
@@ -10,6 +10,8 @@ namespace EmergencyButton.App.Droid.Services
         Task<Dictionary<string, bool>> TryGrantPermissions(string[] permissionsids);
 
         void ResolvePermissionCallback(int code, Dictionary<string, bool> grantList);
+
+        Task TryGrantRequiredPermissions();
 
     }
 }
