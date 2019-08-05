@@ -10,14 +10,16 @@ namespace EmergencyButton.App.Droid.Instrumentation
         public static string _LogFileName;
 
         private readonly string _logFilesPath;
+        private static string DefaultLogFilePath = Path.Combine(global::Android.OS.Environment.ExternalStorageDirectory.AbsolutePath, "EbLogs");
 
-        public FileLogStorage() : this(AppDomain.CurrentDomain.BaseDirectory)
+
+        public FileLogStorage() : this(string.Empty)
         {
         }
 
         public FileLogStorage(string logFilesPath)
         {
-            _logFilesPath = logFilesPath;
+            _logFilesPath = string.IsNullOrWhiteSpace(logFilesPath)? DefaultLogFilePath:logFilesPath;
         }
 
         public string LogFileName
@@ -29,7 +31,7 @@ namespace EmergencyButton.App.Droid.Instrumentation
                     if (!Directory.Exists(_logFilesPath))
                         Directory.CreateDirectory(_logFilesPath);
 
-                    _LogFileName = Path.Combine(_logFilesPath, string.Format("{0:dd.MM.yy HH-ss}.log",
+                    _LogFileName = Path.Combine(_logFilesPath, string.Format("{0:dd.MM.yy HH-mm}.log",
                         DateTime.Now));
                 }
 

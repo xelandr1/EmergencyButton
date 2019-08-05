@@ -17,6 +17,8 @@ namespace EmergencyButton.App.Droid
     public class MainActivity : FormsAppCompatActivity, IStub
     {
         Intent startServiceIntent;
+        private BoundServiceConnection _serviceConnection;
+
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -32,8 +34,11 @@ namespace EmergencyButton.App.Droid
                 LoadApplication(new App());
 
                 Singleton.Services.RegisterService<IStub>(this);
-                startServiceIntent = new Intent(this, typeof(EmergencyButtonService));
-                startServiceIntent.SetAction(Constants.ACTION_START_SERVICE);
+                if (_serviceConnection == null)
+                {
+                    _serviceConnection = new BoundServiceConnection();
+                }
+
 
             }
             catch (Exception e)
@@ -50,12 +55,28 @@ namespace EmergencyButton.App.Droid
 
         public void StartService()
         {
-            StartService(startServiceIntent);
+                startServiceIntent = new Intent(this, typeof(EmergencyButtonService));
+                startServiceIntent.SetAction(Constants.ACTION_START_SERVICE);
+            //  StartService(startServiceIntent);
+            BindService(startServiceIntent, _serviceConnection, Bind.AutoCreate);
+            
+        }
+
+        private void Service_HasCome(object arg1, object arg2)
+        {
+            int a = -1;
         }
 
         public void ServiceInvokeTest()
         {
-            throw new NotImplementedException();
+            if (_serviceConnection.IsConnected)
+                _serviceConnection.Binder.Service.HasCome += Service_HasCome;
+
+            if (_serviceConnection.IsConnected)
+            {
+               var aaa= _serviceConnection.Binder.Service.TestCall("caaaaaaaaaaaaaaal");
+            }
+
         }
     }
 }

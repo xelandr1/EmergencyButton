@@ -74,5 +74,7 @@ namespace EmergencyButton.App.Droid.Ipc
         {
             throw new NotImplementedException();
         }
+
+        public event Action<object, object> HasCome;
     }
 }

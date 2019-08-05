@@ -63,6 +63,9 @@
     <Compile Include="Class1.cs" />
     <Compile Include="Common\Class1.cs" />
     <Compile Include="Common\Constants.cs" />
+    <Compile Include="EbService\BoundServiceBinder.cs" />
+    <Compile Include="EbService\BoundServiceConnection.cs" />
+    <Compile Include="EbService\Class1.cs" />
     <Compile Include="EbService\EbServiceTurnUpPolicy.cs" />
     <Compile Include="EbService\EmergencyButtonService.cs" />
     <Compile Include="EbService\IEmergencyButtonService.cs" />
