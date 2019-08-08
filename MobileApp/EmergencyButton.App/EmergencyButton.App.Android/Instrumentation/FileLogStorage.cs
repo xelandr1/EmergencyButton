@@ -2,6 +2,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Text;
 
 namespace EmergencyButton.App.Droid.Instrumentation
 {
@@ -11,7 +12,7 @@ namespace EmergencyButton.App.Droid.Instrumentation
 
         private readonly string _logFilesPath;
         private static string DefaultLogFilePath = Path.Combine(global::Android.OS.Environment.ExternalStorageDirectory.AbsolutePath, "EbLogs");
-
+        private object _lockFileObject=new object();
 
         public FileLogStorage() : this(string.Empty)
         {
@@ -19,7 +20,7 @@ namespace EmergencyButton.App.Droid.Instrumentation
 
         public FileLogStorage(string logFilesPath)
         {
-            _logFilesPath = string.IsNullOrWhiteSpace(logFilesPath)? DefaultLogFilePath:logFilesPath;
+            _logFilesPath = string.IsNullOrWhiteSpace(logFilesPath) ? DefaultLogFilePath : logFilesPath;
         }
 
         public string LogFileName
@@ -29,7 +30,13 @@ namespace EmergencyButton.App.Droid.Instrumentation
                 if (string.IsNullOrWhiteSpace(_LogFileName))
                 {
                     if (!Directory.Exists(_logFilesPath))
-                        Directory.CreateDirectory(_logFilesPath);
+                    {
+                        lock (_lockFileObject)
+                        {
+
+                            Directory.CreateDirectory(_logFilesPath);
+                        }
+                    }
 
                     _LogFileName = Path.Combine(_logFilesPath, string.Format("{0:dd.MM.yy HH-mm}.log",
                         DateTime.Now));
@@ -44,16 +51,21 @@ namespace EmergencyButton.App.Droid.Instrumentation
         {
             try
             {
-                var stream = File.AppendText(LogFileName);
-                stream.WriteLine(InstrumentationConstants.DumpSeparateString);
-                stream.WriteLine($"{logEntry.TimeStamp} {logEntry.Severity.ToString()} {logEntry.ComponentName}");
-                if (!string.IsNullOrWhiteSpace(logEntry.Title)) stream.WriteLine(logEntry.Title);
-                if (!string.IsNullOrWhiteSpace(logEntry.Description)) stream.WriteLine(logEntry.Description);
-                if (!string.IsNullOrWhiteSpace(logEntry.Context)) stream.WriteLine(logEntry.Context);
-                stream.WriteLine(InstrumentationConstants.DumpSeparateString);
+                lock (_lockFileObject)
+                {
 
-                stream.Flush();
-                stream.Close();
+                    //if (!File.Exists(LogFileName))
+                    //    File.Create(LogFileName);
+
+                    var logText = new StringBuilder();
+                    logText.AppendLine(InstrumentationConstants.DumpSeparateString);
+                    logText.AppendLine($"{logEntry.TimeStamp} {logEntry.Severity.ToString()} {logEntry.ComponentName}");
+                    if (!string.IsNullOrWhiteSpace(logEntry.Title)) logText.AppendLine(logEntry.Title);
+                    if (!string.IsNullOrWhiteSpace(logEntry.Description)) logText.AppendLine(logEntry.Description);
+                    if (!string.IsNullOrWhiteSpace(logEntry.Context)) logText.AppendLine(logEntry.Context);
+                    logText.AppendLine(InstrumentationConstants.DumpSeparateString);
+                    File.WriteAllText(LogFileName, logText.ToString());
+                }
             }
             catch (Exception ex)
             {

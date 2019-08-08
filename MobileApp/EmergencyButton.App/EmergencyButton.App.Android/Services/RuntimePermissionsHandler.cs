@@ -77,6 +77,15 @@ namespace EmergencyButton.App.Droid.Services
                 {
                     await permissionsHandler.TryGrantPermissions(permissionsHandler.ReadWriteExternalStoragePermissionsIds);
                 }
+                if (!permissionsHandler.IsPermissionGranted(permissionsHandler.AutoStartPermissionsIds))
+                {
+                    await permissionsHandler.TryGrantPermissions(permissionsHandler.AutoStartPermissionsIds);
+                }
+                if (!permissionsHandler.IsPermissionGranted(permissionsHandler.StartForegroundServicePermissionsIds))
+                {
+                    await permissionsHandler.TryGrantPermissions(permissionsHandler.StartForegroundServicePermissionsIds);
+                }
+
 
                 //if (!permissionsHandler.IsPermissionGranted(permissionsHandler.GpsPermissionsIds))
                 //{

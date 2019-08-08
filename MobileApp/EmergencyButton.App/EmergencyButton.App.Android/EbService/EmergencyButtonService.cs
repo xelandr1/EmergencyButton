@@ -16,18 +16,17 @@ using Constants = EmergencyButton.App.Droid.Common.Constants;
 
 namespace EmergencyButton.App.Droid.EbService
 {
-    //[Service(Name = "com.xelandr.emergencybuttonservice",
-    //    Exported = true,
-    //    Permission = "com.xelandr.emergencybuttonservice.REQUEST_TIMESTAMP",
-    //    Process = "com.xelandr.emergencybuttonservice.timestampservice_process")]
-    [Service]
+    [Service(Exported = false, Enabled = true)]
     public class EmergencyButtonService : global::Android.App.Service, IEmergencyButtonService, IService
     {
         private readonly IncomingHandler _inHandler = new IncomingHandler();
-    //    private Messenger _messenger;
-    //    private Messenger _toActivityMessenger;
         private PowerManager.WakeLock _wakelock;
         private Notification _currentNotification;
+
+        private static ScreenOnReciever ScreenOnReciever;
+        private static ActionBootCompletedReceiver ActionBootCompletedReceiver;
+
+
 
         public EmergencyButtonService()
         {
@@ -53,8 +52,31 @@ namespace EmergencyButton.App.Droid.EbService
         {
             Logger.Information(nameof(EmergencyButtonService) + " OnCreate", nameof(EmergencyButtonService));
 
+            SafeUnregisterReceiver(ScreenOnReciever);
+            SafeUnregisterReceiver(ActionBootCompletedReceiver);
+            RegisterReceiver(ScreenOnReciever = new ScreenOnReciever(), new IntentFilter(Intent.ActionScreenOn));
+            RegisterReceiver(ActionBootCompletedReceiver = new ActionBootCompletedReceiver(), new IntentFilter(Intent.ActionBootCompleted));
+
+
             base.OnCreate();
             Activate();
+        }
+
+        private void SafeUnregisterReceiver(BroadcastReceiver receiver)
+        {
+            if (receiver == null)
+            {
+                return;
+            }
+
+            try
+            {
+                UnregisterReceiver(receiver);
+            }
+            catch
+            {
+                // Ignore, receiver already unregistered
+            }
         }
 
         public override IBinder OnBind(Intent intent)
@@ -90,99 +112,6 @@ namespace EmergencyButton.App.Droid.EbService
                 //        //_manager.ExecuteScenario(Utils.GetData<ExecuteScenarioArgs>(msg));
                 //        break;
                 //    }
-                //    //case ServiceOperation.GetClientSettings:
-                //    //    {
-                //    //        _manager.GetClientSettings((settings) =>
-                //    //        {
-                //    //            Handle((messenger) => Utils.SendData(settings, messenger, _messenger, ServiceOperation.GetClientSettings));
-                //    //        });
-                //    //        break;
-                //    //    }
-                //    //case ServiceOperation.GetIsConnected:
-                //    //    {
-                //    //        _manager.IsConnected((isConnected) =>
-                //    //        {
-                //    //            Handle((messenger) => Utils.SendData(isConnected, messenger, _messenger, ServiceOperation.GetIsConnected));
-                //    //        });
-                //    //        break;
-                //    //    }
-                //    //case ServiceOperation.GetScenarios:
-                //    //    {
-                //    //        _manager.GetScenarios((scenarios) =>
-                //    //        {
-                //    //            Handle((messenger) => Utils.SendData(scenarios, messenger, _messenger, ServiceOperation.GetScenarios));
-                //    //        });
-                //    //        break;
-                //    //    }
-                //    //case ServiceOperation.GetNotifications:
-                //    //    {
-                //    //        _manager.GetNotifications((notifications) =>
-                //    //            Handle((messenger) => Utils.SendData(notifications, messenger, _messenger, ServiceOperation.GetNotifications)));
-                //    //        break;
-                //    //    }
-                //    //case ServiceOperation.SetClientSettings:
-                //    //    {
-                //    //        _manager.SetClientSettings(Utils.GetData<ConnectionCredentials>(msg));
-                //    //        break;
-                //    //    }
-                //    //case ServiceOperation.ReConnect:
-                //    //    {
-                //    //        _manager.ReConnect();
-                //    //        break;
-                //    //    }
-                //    //case ServiceOperation.RefreshIteration:
-                //    //    {
-                //    //        _manager.RefreshIteration();
-                //    //        break;
-                //    //    }
-                //    //case ServiceOperation.ScreenOnActions:
-                //    //    {
-                //    //        _manager.ScreenOnActions();
-                //    //        ReInitTimer();
-                //    //        break;
-                //    //    }
-                //    //case ServiceOperation.GetListenerSettings:
-                //    //    {
-                //    //        _manager.GetListenerSettings((settings) =>
-                //    //        {
-                //    //            Handle((messenger) => Utils.SendData(settings, messenger, _messenger, ServiceOperation.GetListenerSettings));
-                //    //        });
-                //    //        break;
-                //    //    }
-                //    //case ServiceOperation.SetListenerSettings:
-                //    //    {
-                //    //        var settings = Utils.GetData<ListenerSettings>(msg);
-                //    //        _manager.SetListenerSettings(settings);
-                //    //        break;
-                //    //    }
-                //    //case ServiceOperation.GetGeolocationAccuracy:
-                //    //    {
-                //    //        _manager.GetGeolocationAccuracy((acc) =>
-                //    //            Handle((messenger) => Utils.SendData(acc, messenger, _messenger, ServiceOperation.GetGeolocationAccuracy)));
-                //    //        break;
-                //    //    }
-                //    //case ServiceOperation.SetGeolocationAccuracy:
-                //    //    {
-                //    //        _manager.SetGeolocationAccuracy(Utils.GetData<int>(msg));
-                //    //        break;
-                //    //    }
-                //    //case ServiceOperation.GetGeolocationListenerSettings:
-                //    //    {
-                //    //        _manager.GetGeolocationListenerSettings((listenerSettings) =>
-                //    //            Handle((messenger) => Utils.SendData(listenerSettings, messenger, _messenger, ServiceOperation.GetGeolocationListenerSettings)));
-                //    //        break;
-                //    //    }
-                //    //case ServiceOperation.SetGeolocationListenerSettings:
-                //    //    {
-                //    //        _manager.SetGeolocationListenerSettings(Utils.GetData<GeolocationListenerSettings>(msg));
-                //    //        break;
-                //    //    }
-                //    //case ServiceOperation.Close:
-                //    //    {
-                //    //        Stop();
-                //    //        break;
-                //    //    }
-                //}
             }
             catch (Exception e)
             {
@@ -204,23 +133,52 @@ namespace EmergencyButton.App.Droid.EbService
             RegisterForegroundService();
               ServiceState = ServiceState.Active;
 
-
         }
 
         void RegisterForegroundService()
         {
-            var notification = new Notification.Builder(this)
-                .SetContentTitle("title")
-                .SetContentText("Connnnnnntent")
-                .SetSmallIcon(Resource.Drawable.navigation_empty_icon)
-                .SetContentIntent(BuildIntentToShowMainActivity())
-                .SetOngoing(true)
-                .AddAction(BuildTestAction())
-                .Build();
+            //var notification = new Notification.Builder(this)
+            //    .SetContentTitle("title")
+            //    .SetContentText("Connnnnnntent")
+            //    .SetSmallIcon(Resource.Drawable.navigation_empty_icon)
+            //    //   .SetContentIntent(BuildIntentToShowMainActivity())
+            //    .SetOngoing(true)
+            //    .AddAction(BuildTestAction())
+            //    .Build();
 
 
-            // Enlist this instance of the service as a foreground service
-            StartForeground(15, notification);
+            //// Enlist this instance of the service as a foreground service
+            //StartForeground(15, notification);
+
+            var activityIntent = new Intent(this, typeof(MainActivity));
+            activityIntent.PutExtra(Constants.NeedOpenNotifications, -1);
+
+            var showActivityIntent = PendingIntent.GetActivity(Application.Context, 0, activityIntent, PendingIntentFlags.UpdateCurrent);
+
+            var channelId = Build.VERSION.SdkInt >= BuildVersionCodes.O ? CreateNotificationChannel() : string.Empty;
+
+            var notificationBuilder = new NotificationCompat.Builder(this, channelId);
+            notificationBuilder.SetOngoing(true);
+            notificationBuilder.SetContentTitle("EmergencyButtonService запущен...");
+            notificationBuilder.SetContentText("Нажмите, чтобы открыть список уведомлений");
+            notificationBuilder.SetContentIntent(showActivityIntent);
+            notificationBuilder.SetSmallIcon(Resource.Drawable.navigation_empty_icon);
+            notificationBuilder.SetLargeIcon(BitmapFactory.DecodeResource(Resources, Resource.Drawable.navigation_empty_icon));
+            notificationBuilder.SetVisibility((int)NotificationVisibility.Secret);
+            notificationBuilder.SetPriority((int)NotificationPriority.Min);
+            notificationBuilder.SetColor(Color.SteelBlue);
+            notificationBuilder.SetOnlyAlertOnce(true);
+            notificationBuilder.SetSound(null);
+            notificationBuilder.SetGroupAlertBehavior((int)NotificationGroupAlertBehavior.Summary);
+            notificationBuilder.SetGroup("eb_serv_group");
+            notificationBuilder.SetGroupSummary(false);
+            notificationBuilder.SetCategory(Notification.CategoryService);
+
+            _currentNotification = notificationBuilder.Build();
+
+            StartForeground(1, _currentNotification);
+
+
         }
 
         PendingIntent BuildIntentToShowMainActivity()
@@ -252,6 +210,8 @@ namespace EmergencyButton.App.Droid.EbService
 
         public override StartCommandResult OnStartCommand(Intent intent, StartCommandFlags flags, int startId)
         {
+            Logger.Information("OnStartCommand()", nameof(EmergencyButtonService));
+
             base.OnStartCommand(intent, flags, startId);
 
             if (ServiceState > ServiceState.None) return StartCommandResult.Sticky;

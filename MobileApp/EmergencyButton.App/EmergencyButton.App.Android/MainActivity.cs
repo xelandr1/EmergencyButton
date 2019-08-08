@@ -64,8 +64,8 @@ namespace EmergencyButton.App.Droid
         protected override void OnStart()
         {
             base.OnStart();
-            var serviceToStart = new Intent(this, typeof(EmergencyButtonService));
-            BindService(serviceToStart, _ebServiceConnection, Bind.AutoCreate);
+            //var serviceToStart = new Intent(this, typeof(EmergencyButtonService));
+            //BindService(serviceToStart, _ebServiceConnection, Bind.AutoCreate);
 
             isStarting = true;
             //  Log.Debug(TAG, "BindService has been called.");
@@ -96,7 +96,7 @@ namespace EmergencyButton.App.Droid
         {
                 startServiceIntent = new Intent(this, typeof(EmergencyButtonService));
                 startServiceIntent.SetAction(Constants.ACTION_START_SERVICE);
-            //  StartService(startServiceIntent);
+             // StartService(startServiceIntent);
             BindService(startServiceIntent, _serviceConnection, Bind.AutoCreate);
             
         }
@@ -108,17 +108,22 @@ namespace EmergencyButton.App.Droid
 
         public void ServiceInvokeTest()
         {
-            if (_ebServiceConnection.Messenger != null)
+            //if (_ebServiceConnection.Messenger != null)
+            //{
+            //    Message msg = Message.Obtain(null, (int)ServiceCommand.test);
+            //    try
+            //    {
+            //        _ebServiceConnection.Messenger.Send(msg);
+            //    }
+            //    catch (RemoteException ex)
+            //    {
+            //      //  Log.Error(TAG, ex, "There was a error trying to send the message.");
+            //    }
+            //}
+
+            if (_serviceConnection.IsConnected)
             {
-                Message msg = Message.Obtain(null, (int)ServiceCommand.test);
-                try
-                {
-                    _ebServiceConnection.Messenger.Send(msg);
-                }
-                catch (RemoteException ex)
-                {
-                  //  Log.Error(TAG, ex, "There was a error trying to send the message.");
-                }
+                var res = _serviceConnection.Binder.Service.TestCall("caaaaaalll");
             }
         }
 
