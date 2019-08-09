@@ -57,7 +57,6 @@ namespace EmergencyButton.App.Droid.EbService
             RegisterReceiver(ScreenOnReciever = new ScreenOnReciever(), new IntentFilter(Intent.ActionScreenOn));
             RegisterReceiver(ActionBootCompletedReceiver = new ActionBootCompletedReceiver(), new IntentFilter(Intent.ActionBootCompleted));
 
-
             base.OnCreate();
             Activate();
         }

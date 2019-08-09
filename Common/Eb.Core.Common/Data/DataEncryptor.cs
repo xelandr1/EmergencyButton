@@ -234,7 +234,7 @@ namespace EmergencyButton.Core.Data
 
         protected void RaiseSecretKeyChanged()
         {
-            SecretKeyChanged?.Invoke(this, new EventsArgs<DataEncryptor>(this));
+            SecretKeyChanged?.Invoke(this, new TEventArgs<DataEncryptor>(this));
         }
 
         public event EventsHandler<DataEncryptor> SecretKeyChanged;

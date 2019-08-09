@@ -1,35 +1,32 @@
 ﻿using System;
+using EmergencyButton.Core.ComponentModel.Event;
 
 namespace EmergencyButton.Core.ComponentModel.Service
 {
     /// <summary>
-    ///     Стандартное поведение сервиса
+    /// Стандартное поведение сервиса
     /// </summary>
     public interface IService
     {
         /// <summary>
-        ///     Текущее состояние сервиса
-        /// </summary>
-        ServiceState ServiceState { get; }
-
-        /// <summary>
-        ///     Активация, внутренняя инициализация
+        /// Активация, внутренняя инициализация
         /// </summary>
         void Activate();
 
         /// <summary>
-        ///     Деактивация, Блокирование обращений, останов фоновых процессов, сохранение временных данных
+        /// Деактивация, Блокирование обращений, останов фоновых процессов, сохранение временных данных
         /// </summary>
         void Deactivate();
 
         /// <summary>
-        ///     Изменилось состояние сервиса
+        /// Текущее состояние сервиса
         /// </summary>
-        event EventHandler<EventArgs> ServiceStateChanged;
+        ServiceState ServiceState { get; }
 
-        ///// <summary>
-        ///// Исключение ставшее причиной остановки сервиса
-        ///// </summary>
-        //CommonException BrokenException { get; }
+        /// <summary>
+        /// Изменилось состояние сервиса
+        /// </summary>
+        event EventHandler<ServiceState> ServiceStateChanged;
+
     }
 }
