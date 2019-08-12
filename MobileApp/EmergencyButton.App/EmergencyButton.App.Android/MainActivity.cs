@@ -9,6 +9,7 @@ using EmergencyButton.App.Droid.Ipc;
 using EmergencyButton.App.Droid.Services;
 using EmergencyButton.App.Service;
 using EmergencyButton.Core.ComponentModel;
+using EmergencyButton.Core.Instrumentation;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 
@@ -19,7 +20,6 @@ namespace EmergencyButton.App.Droid
     public class MainActivity : FormsAppCompatActivity, IStub, IResumeSupportService
     {
         Intent startServiceIntent;
-        private EbServiceConnection _ebServiceConnection;
         internal bool isStarting = false;
         private BoundServiceConnection _serviceConnection;
 
@@ -29,14 +29,17 @@ namespace EmergencyButton.App.Droid
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
+            Logger.Information("OnCreate()", nameof(MainActivity));
+
             try
             {
                 Singleton.Services.GetService<ICurrentContext>().Context = this;
 
                 Singleton.Services.UnRegisterService<IResumeSupportService>();
                 Singleton.Services.RegisterService<IResumeSupportService>(this);
+                Singleton.Services.UnRegisterService<IStub>();
 
-                _ebServiceConnection = new EbServiceConnection(this);
+                Singleton.Services.RegisterService<IStub>(this);
 
                 TabLayoutResource = Resource.Layout.Tabbar;
                 ToolbarResource = Resource.Layout.Toolbar;
@@ -46,7 +49,6 @@ namespace EmergencyButton.App.Droid
                 base.OnCreate(savedInstanceState);
                 LoadApplication(new App());
 
-                Singleton.Services.RegisterService<IStub>(this);
                 if (_serviceConnection == null)
                 {
                     _serviceConnection = new BoundServiceConnection();
@@ -63,6 +65,8 @@ namespace EmergencyButton.App.Droid
 
         protected override void OnStart()
         {
+            Logger.Information("OnStart()", nameof(MainActivity));
+
             base.OnStart();
             //var serviceToStart = new Intent(this, typeof(EmergencyButtonService));
             //BindService(serviceToStart, _ebServiceConnection, Bind.AutoCreate);
@@ -76,6 +80,8 @@ namespace EmergencyButton.App.Droid
 
         protected override void OnResume()
         {
+            Logger.Information("OnResume()", nameof(MainActivity));
+
             base.OnResume();
             RaiseStateChanged(ResumeSupportState.Active, _currentState);
             _currentState = ResumeSupportState.Active;
@@ -84,6 +90,8 @@ namespace EmergencyButton.App.Droid
 
         protected override void OnPause()
         {
+            Logger.Information("OnPause()", nameof(MainActivity));
+
             base.OnPause();
             var newState = IsFinishing ? ResumeSupportState.Stopped : ResumeSupportState.Paused;
             RaiseStateChanged(newState, _currentState);

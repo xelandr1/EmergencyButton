@@ -91,7 +91,7 @@
     <Compile Include="Services\CurentContextService.cs" />
     <Compile Include="Services\DroidPowerManager.cs" />
     <Compile Include="Services\RuntimePermissionsHandler.cs" />
-    <Compile Include="Services\SingletonServicesInitializer.cs" />
+    <Compile Include="Services\SingletonInitializer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

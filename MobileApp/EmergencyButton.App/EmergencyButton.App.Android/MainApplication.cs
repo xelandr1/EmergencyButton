@@ -30,56 +30,54 @@ namespace EmergencyButton.App.Droid
         {
             base.OnCreate();
 
-            SingletonServicesInitializer.Initialize(this);
-            var ttt = SubsystemIdentity.InstanceId;
-
-            Logger.Information(nameof(MainApplication) + " OnCreate", nameof(MainApplication));
+            SingletonInitializer.Initialize(this);
+            Logger.Information("OnCreate()", nameof(MainApplication));
 
             RegisterActivityLifecycleCallbacks(this);
         }
 
         public void OnActivityCreated(Activity activity, Bundle savedInstanceState)
         {
-            //if (activity is MainPage)
-            //    ((MainPage)activity).TestClicked += MainApplication_TestClicked;
+            Logger.Information("OnActivityCreated()"+activity.GetType().Name, nameof(MainApplication));
 
         }
 
 
         public void OnActivityDestroyed(Activity activity)
         {
+            Logger.Information("OnActivityDestroyed()" + activity.GetType().Name, nameof(MainApplication));
+
         }
 
         public void OnActivityPaused(Activity activity)
         {
+            Logger.Information("OnActivityPaused()" + activity.GetType().Name, nameof(MainApplication));
+
         }
 
         public void OnActivityResumed(Activity activity)
         {
+            Logger.Information("OnActivityResumed()" + activity.GetType().Name, nameof(MainApplication));
+
         }
 
         public void OnActivitySaveInstanceState(Activity activity, Bundle outState)
         {
+            Logger.Information("OnActivitySaveInstanceState()" + activity.GetType().Name, nameof(MainApplication));
+
         }
 
         public void OnActivityStarted(Activity activity)
         {
+            Logger.Information("OnActivityStarted()" + activity.GetType().Name, nameof(MainApplication));
 
         }
 
         public void OnActivityStopped(Activity activity)
         {
+            Logger.Information("OnActivityStopped()" + activity.GetType().Name, nameof(MainApplication));
 
         }
 
-        public void StartService()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void ServiceInvokeTest()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

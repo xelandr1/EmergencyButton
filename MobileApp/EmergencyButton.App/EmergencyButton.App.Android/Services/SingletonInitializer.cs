@@ -8,16 +8,16 @@ using EmergencyButton.Core.Instrumentation;
 
 namespace EmergencyButton.App.Droid.Services
 {
-    public static class SingletonServicesInitializer
+    public static class SingletonInitializer
     {
         public static void Initialize(Context currentContext)
         {
-            if (!Singleton.Services.ContainService<ICurrentContext>())
-                Singleton.Services.RegisterService<ICurrentContext>(new CurrentContextService(currentContext));
-
             if (Singleton.InstrumentationService == null)
                 Singleton.Services.RegisterService<IInstrumentationService>(new InstrumentationService());
 
+            if (!Singleton.Services.ContainService<ICurrentContext>())
+                Singleton.Services.RegisterService<ICurrentContext>(new CurrentContextService(currentContext));
+            
             if (!Singleton.Services.ContainService<DataEncryptor>())
                 Singleton.Services.RegisterService<DataEncryptor>(new DroidDataEncryptor());
 
@@ -30,7 +30,22 @@ namespace EmergencyButton.App.Droid.Services
             if (!Singleton.Services.ContainService<IRuntimePermissionsHandler>())
                 Singleton.Services.RegisterService<IRuntimePermissionsHandler>(new RuntimePermissionsHandler());
 
+            if (!Singleton.Services.ContainService<IPowerManager>())
+            {
+                Singleton.Services.RegisterService<IPowerManager>(new DroidPowerManager());
+                Singleton.Services.GetService<IPowerManager>().Activate();
+            }
 
+        }
+
+        public static void UnInitialize()
+        {
+            if (!Singleton.Services.ContainService<IPowerManager>())
+            {
+                Singleton.Services.GetService<IPowerManager>().Deactivate();
+                Singleton.Services.UnRegisterService<IPowerManager>();
+
+            }
         }
     }
 }

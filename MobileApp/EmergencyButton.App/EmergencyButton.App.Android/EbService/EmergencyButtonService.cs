@@ -10,7 +10,9 @@ using System;
 using System.Threading;
 using Android.Graphics;
 using Android.Support.V4.App;
+using EmergencyButton.App.Droid.Services;
 using EmergencyButton.Core.Common;
+using EmergencyButton.Core.ComponentModel;
 using EmergencyButton.Core.Instrumentation;
 using Constants = EmergencyButton.App.Droid.Common.Constants;
 
@@ -43,23 +45,10 @@ namespace EmergencyButton.App.Droid.EbService
             protected set { CurrentServiceState = value; }
         }
 
+        public event EventHandler<ServiceState> ServiceStateChanged;
 
 
-        private PowerManager PowerManager => GetSystemService(PowerService) as PowerManager;
 
-
-        public override void OnCreate()
-        {
-            Logger.Information(nameof(EmergencyButtonService) + " OnCreate", nameof(EmergencyButtonService));
-
-            SafeUnregisterReceiver(ScreenOnReciever);
-            SafeUnregisterReceiver(ActionBootCompletedReceiver);
-            RegisterReceiver(ScreenOnReciever = new ScreenOnReciever(), new IntentFilter(Intent.ActionScreenOn));
-            RegisterReceiver(ActionBootCompletedReceiver = new ActionBootCompletedReceiver(), new IntentFilter(Intent.ActionBootCompleted));
-
-            base.OnCreate();
-            Activate();
-        }
 
         private void SafeUnregisterReceiver(BroadcastReceiver receiver)
         {
@@ -85,54 +74,46 @@ namespace EmergencyButton.App.Droid.EbService
             return _binder;
         }
 
-        private void InitWakeLock()
-        {
-            _wakelock = PowerManager.NewWakeLock(WakeLockFlags.Partial, "lazurite::servicewakelock");
-            _wakelock.SetReferenceCounted(false);
-        }
-
-        private void ReleaseWakeLock()
-        {
-            _wakelock?.Release();
-            _wakelock = null;
-        }
-
-        private void InHandler_HasCome(object sender, Message msg)
-        {
-            try
-            {
-
-
-            //    _toActivityMessenger = IpcRoutines.GetAnswerMessenger(msg);
-                //switch ((ServiceOperation) msg.What)
-                //{
-                //    case ServiceOperation.ExecuteScenario:
-                //    {
-                //        //_manager.ExecuteScenario(Utils.GetData<ExecuteScenarioArgs>(msg));
-                //        break;
-                //    }
-            }
-            catch (Exception e)
-            {
-                Logger.Error("Error in Handler_HasCome", nameof(EmergencyButtonService),e);
-            }
-        }
-
         public void Activate()
         {
+            Logger.Information("Activate()", nameof(EmergencyButtonService));
             if(ServiceState!= ServiceState.None)
                 return;
 
             ServiceState = ServiceState.Initiation;
-            Logger.Information("Activate()", nameof(EmergencyButtonService));
 
-            InitWakeLock();
-            //   _messenger = new Messenger(_inHandler);
-            //  _inHandler.HasCome += InHandler_HasCome;
             RegisterForegroundService();
               ServiceState = ServiceState.Active;
 
         }
+        public void Deactivate()
+        {
+            Logger.Information("Deactivate()", nameof(EmergencyButtonService));
+
+            if (ServiceState != ServiceState.Active)
+                return;
+            ServiceState = ServiceState.Termination;
+
+            StopForeground(true);
+
+            SingletonInitializer.UnInitialize();
+
+            ServiceState = ServiceState.Stoped;
+
+        }
+        public override void OnCreate()
+        {
+            Logger.Information("OnCreate()", nameof(EmergencyButtonService));
+
+            SafeUnregisterReceiver(ScreenOnReciever);
+            SafeUnregisterReceiver(ActionBootCompletedReceiver);
+            RegisterReceiver(ScreenOnReciever = new ScreenOnReciever(), new IntentFilter(Intent.ActionScreenOn));
+            RegisterReceiver(ActionBootCompletedReceiver = new ActionBootCompletedReceiver(), new IntentFilter(Intent.ActionBootCompleted));
+
+            base.OnCreate();
+            Activate();
+        }
+
 
         void RegisterForegroundService()
         {
@@ -180,18 +161,6 @@ namespace EmergencyButton.App.Droid.EbService
 
         }
 
-        PendingIntent BuildIntentToShowMainActivity()
-        {
-            var notificationIntent = new Intent(this, typeof(MainActivity));
-            notificationIntent.SetAction("ACTION_MAIN_ACTIVITY");
-            notificationIntent.SetFlags(ActivityFlags.SingleTop | ActivityFlags.ClearTask);
-            notificationIntent.PutExtra("PutExtra", true);
-
-            var pendingIntent = PendingIntent.GetActivity(this, 0, notificationIntent, PendingIntentFlags.UpdateCurrent);
-            return pendingIntent;
-        }
-
-
         Notification.Action BuildTestAction()
         {
             var restartTimerIntent = new Intent(this, GetType());
@@ -212,41 +181,10 @@ namespace EmergencyButton.App.Droid.EbService
             Logger.Information("OnStartCommand()", nameof(EmergencyButtonService));
 
             base.OnStartCommand(intent, flags, startId);
+            Activate();
 
-            if (ServiceState > ServiceState.None) return StartCommandResult.Sticky;
+           return StartCommandResult.Sticky;
 
-          //  ReInitTimer();
-
-
-            var activityIntent = new Intent(this, typeof(MainActivity));
-            activityIntent.PutExtra(Constants.NeedOpenNotifications, -1);
-
-            var showActivityIntent = PendingIntent.GetActivity(Application.Context, 0, activityIntent, PendingIntentFlags.UpdateCurrent);
-
-            var channelId = Build.VERSION.SdkInt >= BuildVersionCodes.O ? CreateNotificationChannel() : string.Empty;
-
-            var notificationBuilder = new NotificationCompat.Builder(this, channelId);
-            notificationBuilder.SetOngoing(true);
-            notificationBuilder.SetContentTitle("Lazurite запущен...");
-            notificationBuilder.SetContentText("Нажмите, чтобы открыть список уведомлений");
-            notificationBuilder.SetContentIntent(showActivityIntent);
-            notificationBuilder.SetSmallIcon(Resource.Drawable.navigation_empty_icon);
-            notificationBuilder.SetLargeIcon(BitmapFactory.DecodeResource(Resources, Resource.Drawable.navigation_empty_icon));
-            notificationBuilder.SetVisibility((int)NotificationVisibility.Secret);
-            notificationBuilder.SetPriority((int)NotificationPriority.Min);
-            notificationBuilder.SetColor(Color.SteelBlue);
-            notificationBuilder.SetOnlyAlertOnce(true);
-            notificationBuilder.SetSound(null);
-            notificationBuilder.SetGroupAlertBehavior((int)NotificationGroupAlertBehavior.Summary);
-            notificationBuilder.SetGroup("eb_serv_group");
-            notificationBuilder.SetGroupSummary(false);
-            notificationBuilder.SetCategory(Notification.CategoryService);
-
-            _currentNotification = notificationBuilder.Build();
-
-            StartForeground(1, _currentNotification);
-
-            return StartCommandResult.Sticky;
         }
 
         private string CreateNotificationChannel()
@@ -266,19 +204,6 @@ namespace EmergencyButton.App.Droid.EbService
         }
 
 
-        public void Deactivate()
-        {
-            if(ServiceState!= ServiceState.Active)
-                return;
-            ServiceState = ServiceState.Termination;
-
-            StopForeground(true);
-            ReleaseWakeLock();
-
-            _inHandler.HasCome -= InHandler_HasCome;
-            ServiceState = ServiceState.Stoped;
-
-        }
 
         public override void OnDestroy()
         {
@@ -286,7 +211,6 @@ namespace EmergencyButton.App.Droid.EbService
             base.OnDestroy();
         }
 
-        public event EventHandler<EventArgs> ServiceStateChanged;
         public string TestCall(string message)
         {
             var timer = new Timer(state => { OnHasCome(50, "blue"); },

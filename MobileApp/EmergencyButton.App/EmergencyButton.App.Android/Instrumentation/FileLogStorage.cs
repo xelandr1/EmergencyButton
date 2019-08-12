@@ -64,7 +64,7 @@ namespace EmergencyButton.App.Droid.Instrumentation
                     if (!string.IsNullOrWhiteSpace(logEntry.Description)) logText.AppendLine(logEntry.Description);
                     if (!string.IsNullOrWhiteSpace(logEntry.Context)) logText.AppendLine(logEntry.Context);
                     logText.AppendLine(InstrumentationConstants.DumpSeparateString);
-                    File.WriteAllText(LogFileName, logText.ToString());
+                    File.AppendAllText(LogFileName, logText.ToString());
                 }
             }
             catch (Exception ex)
