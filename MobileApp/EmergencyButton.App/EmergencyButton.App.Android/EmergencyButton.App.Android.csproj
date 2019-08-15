@@ -75,7 +75,7 @@
     <Compile Include="EbService\EmergencyButtonService.cs" />
     <Compile Include="EbService\IEmergencyButtonService.cs" />
     <Compile Include="EbService\ScreenOnReciever.cs" />
-    <Compile Include="EbService\ActionBootCompletedReceiver.cs" />
+    <Compile Include="EbService\BootCompletedReceiver.cs" />
     <Compile Include="Instrumentation\FileLogStorage.cs" />
     <Compile Include="Instrumentation\InstrumentationService.cs" />
     <Compile Include="Ipc\Class1.cs" />

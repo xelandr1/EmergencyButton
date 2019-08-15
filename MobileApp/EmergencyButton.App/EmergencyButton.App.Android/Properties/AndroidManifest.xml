@@ -5,14 +5,14 @@
 	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 	<uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-  <uses-permission android:name="android.permission.BATTERY_STATS" />
+	<uses-permission android:name="android.permission.BATTERY_STATS" />
 	<application android:label="EmergencyButton.App.Android">
-    <receiver android:name=".ActionBootCompletedReceiver" android:enabled="true" android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
-      <intent-filter>
-        <action android:name="android.intent.action.BOOT_COMPLETED" />
-        <category android:name="android.intent.category.DEFAULT" />
-      </intent-filter>
-    </receiver>
-		<service android:name=".BackgroundService" />
+		<!--<receiver android:name=".BootCompletedReceiver" android:enabled="true" android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
+			<intent-filter>
+				<action android:name="android.intent.action.BOOT_COMPLETED" />
+				<action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
+			</intent-filter>
+		</receiver>-->
+		<service android:name=".BackgroundService" android:exported="false" android:directBootAware="true" />
 	</application>
 </manifest>

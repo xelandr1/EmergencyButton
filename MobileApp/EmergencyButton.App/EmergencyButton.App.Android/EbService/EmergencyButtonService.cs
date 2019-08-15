@@ -19,14 +19,14 @@ using Constants = EmergencyButton.App.Droid.Common.Constants;
 namespace EmergencyButton.App.Droid.EbService
 {
     [Service(Exported = false, Enabled = true)]
-    public class EmergencyButtonService : global::Android.App.Service, IEmergencyButtonService, IService
+    public class EmergencyButtonService : global::Android.App.IntentService, IEmergencyButtonService, IService
     {
         private readonly IncomingHandler _inHandler = new IncomingHandler();
         private PowerManager.WakeLock _wakelock;
         private Notification _currentNotification;
 
         private static ScreenOnReciever ScreenOnReciever;
-        private static ActionBootCompletedReceiver ActionBootCompletedReceiver;
+        private static BootCompletedReceiver ActionBootCompletedReceiver;
 
 
 
@@ -74,6 +74,11 @@ namespace EmergencyButton.App.Droid.EbService
             return _binder;
         }
 
+        protected override void OnHandleIntent(Intent intent)
+        {
+            Logger.Information("OnHandleIntent()", nameof(EmergencyButtonService),$"intent {intent.ToString()}");
+        }
+
         public void Activate()
         {
             Logger.Information("Activate()", nameof(EmergencyButtonService));
@@ -108,7 +113,7 @@ namespace EmergencyButton.App.Droid.EbService
             SafeUnregisterReceiver(ScreenOnReciever);
             SafeUnregisterReceiver(ActionBootCompletedReceiver);
             RegisterReceiver(ScreenOnReciever = new ScreenOnReciever(), new IntentFilter(Intent.ActionScreenOn));
-            RegisterReceiver(ActionBootCompletedReceiver = new ActionBootCompletedReceiver(), new IntentFilter(Intent.ActionBootCompleted));
+            RegisterReceiver(ActionBootCompletedReceiver = new BootCompletedReceiver(), new IntentFilter(Intent.ActionBootCompleted));
 
             base.OnCreate();
             Activate();
