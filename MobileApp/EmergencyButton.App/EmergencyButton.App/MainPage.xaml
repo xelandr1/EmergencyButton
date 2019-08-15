@@ -6,16 +6,25 @@
              x:Class="EmergencyButton.App.MainPage">
 
     <StackLayout>
-        <!-- Place new controls here -->
-        <Label Text="Welcome to Xamarin.Forms!"
-               HorizontalOptions="Center"
-               VerticalOptions="CenterAndExpand" />
         <Button Text="StartService"
                HorizontalOptions="Center"
                VerticalOptions="CenterAndExpand" Clicked="StartService_OnClicked" />
         <Button Text="Test"
                 HorizontalOptions="Center"
                 VerticalOptions="CenterAndExpand" Clicked="Button_OnClicked" />
+
+        <Button Text="StartGeo"
+                HorizontalOptions="Center"
+                VerticalOptions="CenterAndExpand" Clicked="StartGeo_OnClicked"/>
+
+        <Label x:Name="lblGPS"/>
+
+        <Label Text="----------------------------------------------------------------"
+               HorizontalOptions="Center"
+               VerticalOptions="CenterAndExpand" />
+
+        <Label x:Name="lblAddress"/>
+
 
 
     </StackLayout>

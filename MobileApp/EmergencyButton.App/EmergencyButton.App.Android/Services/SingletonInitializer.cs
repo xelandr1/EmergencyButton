@@ -4,6 +4,7 @@ using EmergencyButton.App.Droid.Instrumentation;
 using EmergencyButton.App.Service;
 using EmergencyButton.Core.ComponentModel;
 using EmergencyButton.Core.Data;
+using EmergencyButton.Core.Geolocation;
 using EmergencyButton.Core.Instrumentation;
 
 namespace EmergencyButton.App.Droid.Services
@@ -35,6 +36,12 @@ namespace EmergencyButton.App.Droid.Services
                 Singleton.Services.RegisterService<IPowerManager>(new DroidPowerManager());
                 Singleton.Services.GetService<IPowerManager>().Activate();
             }
+            if (!Singleton.Services.ContainService<IGeolocationService>())
+            {
+                Singleton.Services.RegisterService<IGeolocationService>(new GeolocationService());
+                Singleton.Services.GetService<IGeolocationService>().Activate();
+            }
+
 
         }
 
