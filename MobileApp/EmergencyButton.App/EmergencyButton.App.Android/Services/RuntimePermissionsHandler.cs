@@ -20,6 +20,7 @@ namespace EmergencyButton.App.Droid.Services
         private static readonly string[] StatReadWriteExternalStoragePermissionsIds = new[] { Manifest.Permission.ReadExternalStorage, Manifest.Permission.WriteExternalStorage };
         private static readonly string[] StatPhoneStatePermissionsIds = new[] { Manifest.Permission.ReadPhoneState };
         private static readonly string[] StatStartForegroundServicePermissionsIds = new[] { Manifest.Permission.ForegroundService };
+       // private static readonly string[] StatStartBackgroundServicePermissionsIds = new[] { Manifest.Permission.ForegroundService };
 
         private readonly Dictionary<string[], ushort> _requiredPermissions = new Dictionary<string[], ushort>() {
             { StatGpsPermissionsIds, 0 },
@@ -79,6 +80,20 @@ namespace EmergencyButton.App.Droid.Services
                     }
 
                 }
+                //var permissionsHandler = this;
+
+                //if (!permissionsHandler.IsPermissionGranted(permissionsHandler.ReadWriteExternalStoragePermissionsIds))
+                //{
+                //    await permissionsHandler.TryGrantPermissions(permissionsHandler.ReadWriteExternalStoragePermissionsIds);
+                //}
+                //if (!permissionsHandler.IsPermissionGranted(permissionsHandler.AutoStartPermissionsIds))
+                //{
+                //    await permissionsHandler.TryGrantPermissions(permissionsHandler.AutoStartPermissionsIds);
+                //}
+                //if (!permissionsHandler.IsPermissionGranted(permissionsHandler.StartForegroundServicePermissionsIds))
+                //{
+                //    await permissionsHandler.TryGrantPermissions(permissionsHandler.StartForegroundServicePermissionsIds);
+                //}
 
 
                 //var permissionsHandler = this;
