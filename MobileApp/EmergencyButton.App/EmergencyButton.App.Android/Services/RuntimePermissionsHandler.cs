@@ -20,8 +20,10 @@ namespace EmergencyButton.App.Droid.Services
         private static readonly string[] StatReadWriteExternalStoragePermissionsIds = new[] { Manifest.Permission.ReadExternalStorage, Manifest.Permission.WriteExternalStorage };
         private static readonly string[] StatPhoneStatePermissionsIds = new[] { Manifest.Permission.ReadPhoneState };
         private static readonly string[] StatStartForegroundServicePermissionsIds = new[] { Manifest.Permission.ForegroundService };
+       // private static readonly string[] StatStartBackgroundServicePermissionsIds = new[] { Manifest.Permission.ForegroundService };
 
-        private readonly Dictionary<string[], ushort> IdsCodes = new Dictionary<string[], ushort>() {
+
+        private readonly Dictionary<string[], ushort> _requiredPermissions = new Dictionary<string[], ushort>() {
             { StatGpsPermissionsIds, 0 },
             { StatAutoStartPermissionsIds, 1 },
             { StatWakeLockPermissionsIds, 2 },
@@ -59,7 +61,7 @@ namespace EmergencyButton.App.Droid.Services
         public async Task<Dictionary<string, bool>> TryGrantPermissions(string[] permissionsIds)
         {
             var completionSource = new TaskCompletionSource<Dictionary<string, bool>>();
-            var code = IdsCodes[permissionsIds];
+            var code = _requiredPermissions[permissionsIds];
             ActivityCompat.RequestPermissions(
                 Singleton.GetService<ICurrentContext>().Context.GetActivity()
                 , permissionsIds, code);
@@ -71,20 +73,30 @@ namespace EmergencyButton.App.Droid.Services
         {
             try
             {
-                var permissionsHandler = this;
 
-                if (!permissionsHandler.IsPermissionGranted(permissionsHandler.ReadWriteExternalStoragePermissionsIds))
+
+                foreach (var requiredPermission in _requiredPermissions)
                 {
-                    await permissionsHandler.TryGrantPermissions(permissionsHandler.ReadWriteExternalStoragePermissionsIds);
+                    if (!IsPermissionGranted(requiredPermission.Key))
+                    {
+                        await TryGrantPermissions(requiredPermission.Key);
+                    }
+
                 }
-                if (!permissionsHandler.IsPermissionGranted(permissionsHandler.AutoStartPermissionsIds))
-                {
-                    await permissionsHandler.TryGrantPermissions(permissionsHandler.AutoStartPermissionsIds);
-                }
-                if (!permissionsHandler.IsPermissionGranted(permissionsHandler.StartForegroundServicePermissionsIds))
-                {
-                    await permissionsHandler.TryGrantPermissions(permissionsHandler.StartForegroundServicePermissionsIds);
-                }
+                //var permissionsHandler = this;
+
+                //if (!permissionsHandler.IsPermissionGranted(permissionsHandler.ReadWriteExternalStoragePermissionsIds))
+                //{
+                //    await permissionsHandler.TryGrantPermissions(permissionsHandler.ReadWriteExternalStoragePermissionsIds);
+                //}
+                //if (!permissionsHandler.IsPermissionGranted(permissionsHandler.AutoStartPermissionsIds))
+                //{
+                //    await permissionsHandler.TryGrantPermissions(permissionsHandler.AutoStartPermissionsIds);
+                //}
+                //if (!permissionsHandler.IsPermissionGranted(permissionsHandler.StartForegroundServicePermissionsIds))
+                //{
+                //    await permissionsHandler.TryGrantPermissions(permissionsHandler.StartForegroundServicePermissionsIds);
+                //}
 
 
                 //if (!permissionsHandler.IsPermissionGranted(permissionsHandler.GpsPermissionsIds))
