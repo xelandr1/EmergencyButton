@@ -39,7 +39,8 @@ namespace EmergencyButton.App
 
         private void Button_OnClicked(object sender, EventArgs e)
         {
-            Singleton.GetService<IStub>().ServiceInvokeTest();
+            Navigation.PushModalAsync(new MapPage1());
+            //Singleton.GetService<IStub>().ServiceInvokeTest();
         }
 
         private void StartService_OnClicked(object sender, EventArgs e)

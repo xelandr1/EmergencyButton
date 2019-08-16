@@ -116,6 +116,9 @@ namespace EmergencyButton.App.Droid
 
         public void ServiceInvokeTest()
         {
+            
+
+
             //if (_ebServiceConnection.Messenger != null)
             //{
             //    Message msg = Message.Obtain(null, (int)ServiceCommand.test);
