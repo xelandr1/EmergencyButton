@@ -8,12 +8,11 @@
             <Label Text="MapPage1"
                 VerticalOptions="Start" 
                 HorizontalOptions="CenterAndExpand" />
-            <Button
-                id="testButton"
+            <Button x:Name="testButton"
                 VerticalOptions="Start"
                 HorizontalOptions="CenterAndExpand"
                 Clicked="Test_OnClicked"
-text="Test" />
+                    Text="Test" />
         </StackLayout>
 
     </ContentPage.Content>
