@@ -20,27 +20,27 @@ namespace EmergencyButton.Core.Instrumentation
         {
             var logEntry = new LogEntry(leInformationTemplate)
                 { Title = title, ComponentName = componentName, Description = description };
-            Singleton.InstrumentationService.WriteLogEntry(logEntry);
+            Singleton.InstrumentationService?.WriteLogEntry(logEntry);
         }
 
         public static void Warning(string title, string componentName, string description = "")
         {
             var logEntry = new LogEntry(leWarningTemplate)
                 { Title = title, ComponentName = componentName, Description = description };
-            Singleton.InstrumentationService.WriteLogEntry(logEntry);
+            Singleton.InstrumentationService?.WriteLogEntry(logEntry);
         }
 
         public static void Error(string title, string componentName, string description = "")
         {
             var logEntry = new LogEntry(leErrorTemplate)
                 { Title = title, ComponentName = componentName, Description = description };
-            Singleton.InstrumentationService.WriteLogEntry(logEntry);
+            Singleton.InstrumentationService?.WriteLogEntry(logEntry);
         }
         public static void Error(string title, string componentName, Exception exception=null)
         {
             var logEntry = new LogEntry(leErrorTemplate)
                 { Title = title, ComponentName = componentName, Description = exception.ToString() };
-            Singleton.InstrumentationService.WriteLogEntry(logEntry);
+            Singleton.InstrumentationService?.WriteLogEntry(logEntry);
         }
 
     }
