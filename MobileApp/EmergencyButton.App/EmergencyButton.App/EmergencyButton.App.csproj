@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -10,6 +10,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Konscious.Security.Cryptography.Blake2" Version="1.0.9" />
+    <PackageReference Include="protobuf-net" Version="2.4.0" />
     <PackageReference Include="Xamarin.Forms" Version="4.1.0.555618" />
   </ItemGroup>
 
@@ -20,6 +22,12 @@
   <ItemGroup>
     <Reference Include="Mono.Android">
       <HintPath>..\..\..\..\..\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\ReferenceAssemblies\Microsoft\Framework\MonoAndroid\v9.0\Mono.Android.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleRemoteMethods.Bases">
+      <HintPath>..\..\..\SharedBinaries\Libs\SimpleRemoteMethods\SimpleRemoteMethods.Bases.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleRemoteMethods.ClientSide">
+      <HintPath>..\..\..\SharedBinaries\Libs\SimpleRemoteMethods\SimpleRemoteMethods.ClientSide.dll</HintPath>
     </Reference>
   </ItemGroup>
 

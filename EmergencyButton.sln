@@ -23,7 +23,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Other", "Other", "{46113C14
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server", "Server", "{8E0A20A1-76E1-4C9A-A702-97917EBA0BFF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerConsoleHost", "Server\ServerConsoleHost\ServerConsoleHost.csproj", "{668FD6AF-9E51-46D4-9DFF-26B684544115}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServerConsoleHost", "Server\ServerConsoleHost\ServerConsoleHost.csproj", "{668FD6AF-9E51-46D4-9DFF-26B684544115}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

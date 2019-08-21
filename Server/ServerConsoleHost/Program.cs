@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 using EmergencyButton.Core.Instrumentation;
-using EmergencyButton.Core.Server.ComponentModel;
+using EmergencyButton.Core.Server.Core;
 
 namespace ServerConsoleHost
 {
@@ -9,18 +9,34 @@ namespace ServerConsoleHost
     {
         static void Main(string[] args)
         {
+            ServerCore serverCore = null;
             try
             {
                 Thread.CurrentThread.Name = "ConsoleHost.MainThread";
-                SingletonInitializer.Initialize();
+                serverCore = new ServerCore();
+                serverCore.Activate();
 
                 HostStopWaitHandle.Wait();
+                serverCore.Deactivate();
             }
             catch (Exception e)
             {
-                Logger.Error("Инициализация хостинга сервера", "ServerConsoleHost",e);
+                Logger.Error("Инициализация хостинга сервера", "ServerConsoleHost", e);
 
             }
+
+            HostStopWaitHandle.Wait();
+
+            try
+            {
+                serverCore.Deactivate();
+            }
+            catch (Exception e)
+            {
+                Logger.Error("Останов хостинга сервера", "ServerConsoleHost", e);
+
+            }
+
         }
     }
 }

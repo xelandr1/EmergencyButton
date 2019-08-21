@@ -20,6 +20,11 @@ namespace EmergencyButton.Core.Instrumentation
                 }
         }
 
+        public void RegisterLogStorage(ILogStorage storage)
+        {
+            LogStorages.Add(storage);
+        }
+
         public void Dispose()
         {
         }

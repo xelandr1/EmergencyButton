@@ -10,7 +10,24 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Services\" />
+    <Folder Include="ComponentModel\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Konscious.Security.Cryptography.Blake2" Version="1.0.9" />
+    <PackageReference Include="protobuf-net" Version="2.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="SimpleRemoteMethods.Bases">
+      <HintPath>..\..\SharedBinaries\Libs\SimpleRemoteMethods\SimpleRemoteMethods.Bases.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleRemoteMethods.ServerSide">
+      <HintPath>..\..\SharedBinaries\Libs\SimpleRemoteMethods\SimpleRemoteMethods.ServerSide.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleRemoteMethods.Utils.Windows">
+      <HintPath>..\..\SharedBinaries\Libs\SimpleRemoteMethods\SimpleRemoteMethods.Utils.Windows.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

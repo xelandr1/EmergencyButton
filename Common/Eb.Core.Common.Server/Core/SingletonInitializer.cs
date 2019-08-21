@@ -2,18 +2,18 @@
 using EmergencyButton.Core.Instrumentation;
 using EmergencyButton.Core.Server.Instrumentation;
 
-namespace EmergencyButton.Core.Server.ComponentModel
+namespace EmergencyButton.Core.Server.Core
 {
     public static class SingletonInitializer
     {
         public static void Initialize()
         {
             if (Singleton.InstrumentationService == null)
-                Singleton.Services.RegisterService<IInstrumentationService>(new InstrumentationService());
+                Singleton.Services.RegisterService<IInstrumentationService>(new ServerInstrumentationService());
 
         }
 
-        public static void UnInitialize()
+        public static void TearDown()
         {
         }
     }

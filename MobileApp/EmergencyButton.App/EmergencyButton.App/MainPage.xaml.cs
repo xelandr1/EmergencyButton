@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using EmergencyButton.App.Remote;
 using EmergencyButton.App.Service;
 using EmergencyButton.Core.ComponentModel;
 using EmergencyButton.Core.ComponentModel.Event;
@@ -37,9 +38,11 @@ namespace EmergencyButton.App
 
         }
 
-        private void Button_OnClicked(object sender, EventArgs e)
+        private async void Button_OnClicked(object sender, EventArgs e)
         {
-            Navigation.PushModalAsync(new MapPage1());
+          var version= await Singleton.GetService<RemoteClientManager>().Client.GetCoreVersion();
+
+            // Navigation.PushModalAsync(new MapPage1());
             //Singleton.GetService<IStub>().ServiceInvokeTest();
         }
 
