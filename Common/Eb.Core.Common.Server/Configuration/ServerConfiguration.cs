@@ -5,7 +5,7 @@ namespace EmergencyButton.Core.Server.Configuration
 {
     public class ServerConfiguration
     {
-        public ushort Port { get; set; } = 8080;
+        public ushort Port { get; set; } = 8082;
         public string CertificateHash { get; set; }
         public string SecretKey { get; set; } = "0123456789123456";
 
