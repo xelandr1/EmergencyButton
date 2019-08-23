@@ -59,14 +59,13 @@ namespace EmergencyButton.App.Remote
         {
         }
 
-        public Task DoCommand(string command, object[] parameters = null)
+        public async Task DoCommand(string command, object[] parameters = null)
         {
-            throw new System.NotImplementedException();
         }
 
-        public Task<TResult> DoCommand<TResult>(string command, object[] parameters = null)
+        public async Task<TResult> DoCommand<TResult>(string command, object[] parameters = null)
         {
-            throw new System.NotImplementedException();
+            return default;
         }
 
         public TransportLayerMode CurrentTransportMode { get; }
