@@ -1,8 +1,8 @@
-﻿using EmergencyButton.Core.ComponentModel;
+﻿using Eb.Core.Server.Instrumentation;
+using EmergencyButton.Core.ComponentModel;
 using EmergencyButton.Core.Instrumentation;
-using EmergencyButton.Core.Server.Instrumentation;
 
-namespace EmergencyButton.Core.Server.Core
+namespace Eb.Core.Server.Core
 {
     public static class SingletonInitializer
     {

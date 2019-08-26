@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
+using Eb.Core.Server.Core;
 using EmergencyButton.Core.Instrumentation;
-using EmergencyButton.Core.Server.Core;
 
 namespace ServerConsoleHost
 {

@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace EmergencyButton.Core.Server.Services
+namespace Eb.Core.Server.Services
 {
     public class ServerCoreService : IServerCoreService
     {

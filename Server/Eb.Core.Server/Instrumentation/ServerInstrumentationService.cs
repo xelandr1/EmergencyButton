@@ -1,6 +1,6 @@
 ﻿using EmergencyButton.Core.Instrumentation;
 
-namespace EmergencyButton.Core.Server.Instrumentation
+namespace Eb.Core.Server.Instrumentation
 {
     public class ServerInstrumentationService : InstrumentationServiceBase
     {

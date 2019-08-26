@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Diagnostics;
+using Eb.Core.Server.Configuration;
+using Eb.Core.Server.Instrumentation;
+using Eb.Core.Server.Services;
 using EmergencyButton.Core.ComponentModel;
 using EmergencyButton.Core.ComponentModel.Service;
 using EmergencyButton.Core.Instrumentation;
-using EmergencyButton.Core.Server.Configuration;
-using EmergencyButton.Core.Server.Instrumentation;
-using EmergencyButton.Core.Server.Services;
 using SimpleRemoteMethods.ServerSide;
 using SimpleRemoteMethods.Utils.Windows;
 
-namespace EmergencyButton.Core.Server.Core
+namespace Eb.Core.Server.Core
 {
    public class ServerCore:AbstractService,IServerCore
     {

@@ -1,6 +1,6 @@
 ﻿using SimpleRemoteMethods.Bases;
 
-namespace EmergencyButton.Core.Server.Services
+namespace Eb.Core.Server.Services
 {
     public interface IServerCoreService
     {

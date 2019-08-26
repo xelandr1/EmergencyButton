@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Security;
 using System.Threading;
 
-namespace EmergencyButton.Core.Server.Core
+namespace Eb.Core.Server.Core
 {
     /// <summary>
     /// Хелпер для события ожидания остановки физического хоста.

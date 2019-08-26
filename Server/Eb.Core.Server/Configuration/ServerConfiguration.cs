@@ -1,7 +1,7 @@
 ﻿using System;
-using EmergencyButton.Core.Server.Core;
+using Eb.Core.Server.Core;
 
-namespace EmergencyButton.Core.Server.Configuration
+namespace Eb.Core.Server.Configuration
 {
     public class ServerConfiguration
     {
