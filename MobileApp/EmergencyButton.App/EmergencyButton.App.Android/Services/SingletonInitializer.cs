@@ -2,6 +2,7 @@
 using EmergencyButton.App.Droid.Common;
 using EmergencyButton.App.Droid.Instrumentation;
 using EmergencyButton.App.Remote;
+using EmergencyButton.App.Remote.Http;
 using EmergencyButton.App.Service;
 using EmergencyButton.Core.ComponentModel;
 using EmergencyButton.Core.Data;
@@ -43,10 +44,10 @@ namespace EmergencyButton.App.Droid.Services
                 Singleton.Services.GetService<IGeolocationService>().Activate();
             }
 
-            if (!Singleton.Services.ContainService<RemoteClientManager>())
+            if (!Singleton.Services.ContainService<IRemoteCommandManager>())
             {
-                Singleton.Services.RegisterService<RemoteClientManager>(new RemoteClientManager());
-                Singleton.Services.GetService<RemoteClientManager>().Activate();
+                Singleton.Services.RegisterService<IRemoteCommandManager>(new RemoteCommandManager(new DefaultCommandProviderEnumerator()));
+                Singleton.Services.GetService<IRemoteCommandManager>().Activate();
             }
 
 

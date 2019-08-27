@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using EmergencyButton.App.Remote;
+using EmergencyButton.App.Remote.Http;
 using EmergencyButton.App.Service;
 using EmergencyButton.Core.ComponentModel;
 using EmergencyButton.Core.ComponentModel.Event;

@@ -1,4 +1,4 @@
-﻿namespace EmergencyButton.App.Remote
+﻿namespace EmergencyButton.App.Remote.Http
 {
     public class ConnectionConfiguration
     {
