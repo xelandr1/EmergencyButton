@@ -1,32 +1,44 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+<MasterDetailPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:EmergencyButton.App"
-             x:Class="EmergencyButton.App.MainPage">
+             x:Class="EmergencyButton.App.MainPage"
+             Title="Main Page">
 
-    <StackLayout>
-        <Button Text="StartService"
-               HorizontalOptions="Center"
-               VerticalOptions="CenterAndExpand" Clicked="StartService_OnClicked" />
-        <Button Text="Test"
-                HorizontalOptions="Center"
-                VerticalOptions="CenterAndExpand" Clicked="Button_OnClicked" />
+    <MasterDetailPage.Master>
+        <ContentPage Title="Master00">
+            <ContentPage.Content>
+                <StackLayout Padding="5,30,5,5">
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                        <Image WidthRequest="32" HeightRequest="32" Aspect="AspectFit" Source="RedButton.png"></Image>
+                        <Label x:Name="lblCaption" Text="lblCaption"></Label>
+                    </StackLayout>
 
-        <Button Text="StartGeo"
-                HorizontalOptions="Center"
-                VerticalOptions="CenterAndExpand" Clicked="StartGeo_OnClicked"/>
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                        <Image WidthRequest="24" HeightRequest="24" Aspect="AspectFit" Source="Test.png"></Image>
+                        <Button x:Name="btnTest1" Text="Test1" Clicked="BtnTest1_OnClicked"></Button>
+                    </StackLayout>
 
-        <Label x:Name="lblGPS"/>
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                        <Image WidthRequest="24" HeightRequest="24" Aspect="AspectFit" Source="Test.png"></Image>
+                        <Button x:Name="btnMap" Text="Map" Clicked="BtnMap_OnClicked"></Button>
+                    </StackLayout>
 
-        <Label Text="----------------------------------------------------------------"
-               HorizontalOptions="Center"
-               VerticalOptions="CenterAndExpand" />
-
-        <Label x:Name="lblAddress"/>
-
+                </StackLayout>
+            </ContentPage.Content>
+        </ContentPage>
+    </MasterDetailPage.Master>
 
 
-    </StackLayout>
+    <MasterDetailPage.Detail>
+        <ContentPage>
+            <ContentPage.Content>
+                <Label Text ="ContentPage_Content" VerticalOptions="Center" HorizontalOptions="Center"></Label>
+            </ContentPage.Content>
+        </ContentPage>
 
-</ContentPage>
+    </MasterDetailPage.Detail>
+
+
+</MasterDetailPage>

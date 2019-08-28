@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
@@ -10,15 +10,11 @@ using Xamarin.Forms.Xaml;
 namespace EmergencyButton.App
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class MapPage : ContentPage
+    public partial class Test1 : ContentPage
     {
-
-        public MapPage()
+        public Test1()
         {
             InitializeComponent();
-
-
         }
-
     }
 }
