@@ -19,7 +19,7 @@ namespace EmergencyButton.App.Droid.Services
         private static readonly string[] StatWakeLockPermissionsIds = new[] { Manifest.Permission.WakeLock };
         private static readonly string[] StatReadWriteExternalStoragePermissionsIds = new[] { Manifest.Permission.ReadExternalStorage, Manifest.Permission.WriteExternalStorage };
         private static readonly string[] StatPhoneStatePermissionsIds = new[] { Manifest.Permission.ReadPhoneState };
-        private static readonly string[] StatStartForegroundServicePermissionsIds = new[] { Manifest.Permission.ForegroundService };
+       // private static readonly string[] StatStartForegroundServicePermissionsIds = new[] { Manifest.Permission.ser };
        // private static readonly string[] StatStartBackgroundServicePermissionsIds = new[] { Manifest.Permission.ForegroundService };
 
         private readonly Dictionary<string[], ushort> _requiredPermissions = new Dictionary<string[], ushort>() {
@@ -28,7 +28,7 @@ namespace EmergencyButton.App.Droid.Services
             { StatWakeLockPermissionsIds, 2 },
             { StatReadWriteExternalStoragePermissionsIds, 3 },
             { StatPhoneStatePermissionsIds, 4 },
-            { StatStartForegroundServicePermissionsIds, 5 },
+   //         { StatStartForegroundServicePermissionsIds, 5 },
         };
 
         public string[] GpsPermissionsIds => StatGpsPermissionsIds;
@@ -36,7 +36,7 @@ namespace EmergencyButton.App.Droid.Services
         public string[] WakeLockPermissionsIds => StatWakeLockPermissionsIds;
         public string[] ReadWriteExternalStoragePermissionsIds => StatReadWriteExternalStoragePermissionsIds;
         public string[] PhoneStatePermissionsIds => StatPhoneStatePermissionsIds;
-        public string[] StartForegroundServicePermissionsIds => StatStartForegroundServicePermissionsIds;
+   //     public string[] StartForegroundServicePermissionsIds => StatStartForegroundServicePermissionsIds;
 
         private readonly Dictionary<int, Action<Dictionary<string, bool>>> _callbacks = new Dictionary<int, Action<Dictionary<string, bool>>>();
 

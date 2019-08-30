@@ -12,7 +12,8 @@
   <ItemGroup>
     <PackageReference Include="Konscious.Security.Cryptography.Blake2" Version="1.0.9" />
     <PackageReference Include="protobuf-net" Version="2.4.0" />
-    <PackageReference Include="Xamarin.Forms" Version="4.1.0.555618" />
+    <PackageReference Include="Xamarin.Forms" Version="4.2.0.709249" />
+    <PackageReference Include="Xamarin.Forms.Maps" Version="4.2.0.709249" />
   </ItemGroup>
 
   <ItemGroup>

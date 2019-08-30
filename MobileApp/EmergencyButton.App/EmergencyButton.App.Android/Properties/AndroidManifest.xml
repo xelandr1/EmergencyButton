@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.xelandr.emergencybutton.app" android:installLocation="auto">
-	<uses-sdk android:minSdkVersion="26" android:targetSdkVersion="28" />
+	<uses-sdk android:minSdkVersion="26" android:targetSdkVersion="27" />
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 	<uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
@@ -15,8 +15,7 @@
 				<action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
 			</intent-filter>
 		</receiver>-->
-    <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyACTR5vcN5bFHlMuC4w8SWb4Xc-ICcCNI0" />
-
-    <service android:name=".BackgroundService" android:exported="false" android:directBootAware="true" />
+		<meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyACTR5vcN5bFHlMuC4w8SWb4Xc-ICcCNI0" />
+		<service android:name=".BackgroundService" android:exported="false" android:directBootAware="true" />
 	</application>
 </manifest>

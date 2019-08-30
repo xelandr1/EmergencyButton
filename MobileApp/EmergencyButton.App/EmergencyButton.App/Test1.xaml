@@ -3,13 +3,40 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:EmergencyButton.App;assembly=EmergencyButton.App"
              mc:Ignorable="d"
              x:Class="EmergencyButton.App.Test1">
-    <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Test1 Page"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
-    </ContentPage.Content>
+
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <BoxView Color="Red" Grid.Column="0" Grid.Row="0" />
+        <BoxView Color="Blue" Grid.Column="0" Grid.Row="1" />
+        <BoxView Color="Fuchsia" Grid.Column="0" Grid.Row="2" />
+
+        <BoxView Color="Teal" Grid.Column="1" Grid.Row="0" />
+        <BoxView Color="Green" Grid.Column="1" Grid.Row="1" />
+        <BoxView Color="Maroon" Grid.Column="1" Grid.Row="2" />
+
+        <BoxView Color="Olive" Grid.Column="2" Grid.Row="0" />
+        <BoxView Color="Pink" Grid.Column="2" Grid.Row="1" />
+        <BoxView Color="Yellow" Grid.Column="2" Grid.Row="2" />
+
+            <local:MyMap1 x:Name="myMap" MapType="Street" HorizontalOptions="Fill" VerticalOptions="Fill" 
+                          Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" Grid.RowSpan="3"  />
+<Button Text="test1" Clicked="test1_click"
+        AnchorX="1" AnchorY="1" HorizontalOptions="EndAndExpand"
+        VerticalOptions="CenterAndExpand" Grid.Column="2" Grid.Row="1" />
+
+    </Grid>
 </ContentPage>

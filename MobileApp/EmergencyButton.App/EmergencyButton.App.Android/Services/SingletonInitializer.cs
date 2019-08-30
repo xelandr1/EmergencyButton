@@ -44,11 +44,11 @@ namespace EmergencyButton.App.Droid.Services
                 Singleton.Services.GetService<IGeolocationService>().Activate();
             }
 
-            if (!Singleton.Services.ContainService<IRemoteCommandManager>())
-            {
-                Singleton.Services.RegisterService<IRemoteCommandManager>(new RemoteCommandManager(new DefaultCommandProviderEnumerator()));
-                Singleton.Services.GetService<IRemoteCommandManager>().Activate();
-            }
+            //if (!Singleton.Services.ContainService<IRemoteCommandManager>())
+            //{
+            //    Singleton.Services.RegisterService<IRemoteCommandManager>(new RemoteCommandManager(new DefaultCommandProviderEnumerator()));
+            //    Singleton.Services.GetService<IRemoteCommandManager>().Activate();
+            //}
 
 
 

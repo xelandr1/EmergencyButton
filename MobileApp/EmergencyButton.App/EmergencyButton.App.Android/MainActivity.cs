@@ -31,6 +31,14 @@ namespace EmergencyButton.App.Droid
         {
             Logger.Information("OnCreate()", nameof(MainActivity));
 
+            var width = Resources.DisplayMetrics.WidthPixels;
+            var height = Resources.DisplayMetrics.HeightPixels;
+            var density = Resources.DisplayMetrics.Density;
+
+            App.ScreenWidth = (width - 0.5f) / density;
+            App.ScreenHeight = (height - 0.5f) / density;
+
+
             try
             {
                 Singleton.Services.GetService<ICurrentContext>().Context = this;
