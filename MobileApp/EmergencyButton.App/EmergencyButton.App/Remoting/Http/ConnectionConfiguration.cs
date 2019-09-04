@@ -7,7 +7,7 @@
         public string CertificateHash { get; set; }
         public string SecretKey { get; set; } = "0123456789123456";
 
-        public int ConnectionTimeout { get; set; } = 1000;
+        public int ConnectionTimeout { get; set; } = 10;
 
     }
 }
