@@ -35,8 +35,8 @@ namespace EmergencyButton.App
         {
             var remoteCommandManager = Singleton.GetService<IRemoteCommandManager>();
 
-          var res= await  remoteCommandManager.DoCommand<string>("CoreVersion");
-
+            var res = await remoteCommandManager.DoCommand<string>("CoreVersion");
+            lblTest.Text = res;
 
         }
 

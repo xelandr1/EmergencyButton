@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using EmergencyButton.Core.ComponentModel.Event;
 using EmergencyButton.Core.ComponentModel.Service;
@@ -71,7 +72,13 @@ namespace EmergencyButton.App.Remote.Http
 
         public async Task DoCommand(string command, object[] parameters = null)
         {
-           await _srmClient.CallMethod(command, parameters);
+            try
+            {
+                await _srmClient.CallMethod(command, parameters);
+            }
+            catch (Exception ex) {
+                Debug.Print(ex.ToString());
+            }
         }
 
         public async Task<TResult> DoCommand<TResult>(string command, object[] parameters = null)

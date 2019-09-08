@@ -5,6 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Konscious.Security.Cryptography.Blake2" Version="1.0.9" />
+    <PackageReference Include="protobuf-net" Version="2.4.0" />
+    <PackageReference Include="SslCertBinding.Net" Version="1.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\Common\Eb.Core.Common\Eb.Core.Common.csproj" />
   </ItemGroup>
 
