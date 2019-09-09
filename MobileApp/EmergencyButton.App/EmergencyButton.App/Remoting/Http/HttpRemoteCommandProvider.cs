@@ -19,7 +19,7 @@ namespace EmergencyButton.App.Remote.Http
             ServiceState = ServiceState.Initiation;
             var config = new ConnectionConfiguration();
 
-            _srmClient = new Client(config.Host,config.Port,true,config.SecretKey,"login","password",TimeSpan.FromSeconds(config.ConnectionTimeout));
+            _srmClient = new Client(config.Host,config.Port,false,config.SecretKey,"login","password",TimeSpan.FromSeconds(config.ConnectionTimeout));
 
             _srmClient.ConnectionError += Client_ConnectionError;
             _srmClient.ConnectionNormal += Client_ConnectionNormal;

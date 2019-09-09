@@ -24,14 +24,14 @@ namespace Eb.Core.Server.Core
 
             var servConfig = new ServerConfiguration();
 
-            _remoteServer = new SimpleRemoteMethods.ServerSide.Server<IServerCoreService>(new ServerCoreService(), true, servConfig.Port, servConfig.SecretKey)
+            _remoteServer = new SimpleRemoteMethods.ServerSide.Server<IServerCoreService>(new ServerCoreService(), false, servConfig.Port, servConfig.SecretKey)
             {
                 MaxConcurrentCalls = (ushort)servConfig.MaxConcurrentCalls,
                 MaxRequestLength = 500000,
                 AuthenticationValidator = new LoginValidator()
             };
 
-            ServerHelper.PrepareHttpsServer(_remoteServer, servConfig.CertificateHash, "UniqueId");
+            ServerHelper.PrepareHttpServer(_remoteServer, "EmergencyButton");
             _remoteServer.StartAsync();
 
             Logger.Information($"Start in {activateTimer.ElapsedMilliseconds} ms", nameof(ServerCore));
