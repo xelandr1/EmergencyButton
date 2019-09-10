@@ -15,7 +15,7 @@ namespace Eb.Core.Server.Configuration
 
         public string GetAddress()
         {
-            return string.Format("https://localhost:{0}", Port);
+            return string.Format("http://localhost:{0}", Port);
         }
     }
 }

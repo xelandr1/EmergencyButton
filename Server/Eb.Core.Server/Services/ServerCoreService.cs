@@ -4,6 +4,11 @@ namespace Eb.Core.Server.Services
 {
     public class ServerCoreService : IServerCoreService
     {
+        public string CheckAvailability()
+        {
+            return "OK";
+        }
+
         public string CoreVersion()
         {
             return Assembly.GetEntryAssembly().GetName().Version.ToString();
