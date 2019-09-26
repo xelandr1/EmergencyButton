@@ -1,17 +1,20 @@
 ﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.OS;
+using EmergencyButton.App.ComponentModel;
+using EmergencyButton.App.ComponentModel.Service;
 using EmergencyButton.App.Droid.EbService;
 using EmergencyButton.App.Service;
 using EmergencyButton.Core.ComponentModel;
-using EmergencyButton.Core.ComponentModel.Service;
 using EmergencyButton.Core.Instrumentation;
 using Xamarin.Essentials;
 
 namespace EmergencyButton.App.Droid.Services
 {
-    public class DroidPowerManager: AbstractService, IPowerManager
+    public class DroidPowerManager: AbstractHostedService, IPowerManager
     {
         private PowerManager.WakeLock _wakelock;
         private PowerModeReceiver _powerModeReceiver;
@@ -19,29 +22,29 @@ namespace EmergencyButton.App.Droid.Services
         private PowerManager PowerManager => Singleton.GetService<ICurrentContext>()
             .Context.GetSystemService(Context.PowerService) as PowerManager;
 
-        //public ServiceState ServiceState { get; protected set; }
-        public override void Activate()
+
+        protected override Task StartAsyncInternal(CancellationToken cancellationToken)
         {
             Logger.Information("Activate()", nameof(DroidPowerManager));
 
-            if (ServiceState > ServiceState.None) return;
             ServiceState = ServiceState.Initiation;
             _wakelock = PowerManager.NewWakeLock(WakeLockFlags.Partial, "emergencyButton::servicewakelock");
             _wakelock.SetReferenceCounted(false);
 
             if(_powerModeReceiver==null)
-            Singleton.GetService<ICurrentContext>().Context.RegisterReceiver(
+                Singleton.GetService<ICurrentContext>().Context.RegisterReceiver(
                 _powerModeReceiver = new PowerModeReceiver(),
                 new IntentFilter(PowerManager.ActionPowerSaveModeChanged));
 
             ServiceState = ServiceState.Active;
+
+            return Task.CompletedTask;
         }
 
-        public override void Deactivate()
+        protected override Task StopAsyncInternal(CancellationToken cancellationToken)
         {
             Logger.Information("Deactivate()", nameof(DroidPowerManager));
 
-            if (ServiceState >= ServiceState.Termination) return;
             ServiceState = ServiceState.Termination;
             _wakelock?.Release();
             _wakelock = null;
@@ -53,7 +56,9 @@ namespace EmergencyButton.App.Droid.Services
             }
 
             ServiceState = ServiceState.Stoped;
+            return Task.CompletedTask;
         }
+
 
         public DevicePowerMode CurrentPowerMode {
             get

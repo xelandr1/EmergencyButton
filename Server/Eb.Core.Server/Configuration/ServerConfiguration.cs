@@ -1,5 +1,4 @@
 ﻿using System;
-using Eb.Core.Server.Core;
 
 namespace Eb.Core.Server.Configuration
 {
@@ -11,7 +10,7 @@ namespace Eb.Core.Server.Configuration
 
         public int MaxConcurrentCalls { get; set; } = 50;
 
-        public Type AuthenticationValidator { get; set; } = typeof(LoginValidator);
+ //       public Type AuthenticationValidator { get; set; } = typeof(LoginValidator);
 
         public string GetAddress()
         {

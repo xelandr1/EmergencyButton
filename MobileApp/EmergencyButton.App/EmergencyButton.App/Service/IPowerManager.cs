@@ -1,10 +1,9 @@
 ﻿using System;
-using EmergencyButton.Core.ComponentModel.Service;
 
 namespace EmergencyButton.App.Service
 {
 
-    public interface IPowerManager : IService
+    public interface IPowerManager
     {
         DevicePowerMode CurrentPowerMode { get; set; }
         event EventHandler<DevicePowerMode> CurrentPowerModeChanged;

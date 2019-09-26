@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
+using EmergencyButton.App.ComponentModel;
 using EmergencyButton.Core.ComponentModel;
 using EmergencyButton.Core.Geolocation;
 using Xamarin.Forms;

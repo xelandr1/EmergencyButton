@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using EmergencyButton.Core.ComponentModel.Service;
 
 namespace EmergencyButton.Core.Geolocation
 {
-    public interface IGeolocationService : IService
+    public interface IGeolocationService
     {
         /// <summary>
         /// Position changed event handler

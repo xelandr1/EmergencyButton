@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
+using EmergencyButton.App.ComponentModel.Service;
 using EmergencyButton.Core.ComponentModel.Factory;
-using EmergencyButton.Core.ComponentModel.Service;
 using EmergencyButton.Core.Instrumentation;
 
 namespace EmergencyButton.App.Remote
 {
-    public class RemoteCommandManager : AbstractService, IRemoteCommandManager
+    public class RemoteCommandManager : AbstractHostedService, IRemoteCommandManager
     {
         private readonly ICommandProviderEnumerator _commandProviderEnumerator;
         private List< IRemoteCommandProvider> _commandProviders=new List<IRemoteCommandProvider>();
@@ -66,22 +67,19 @@ namespace EmergencyButton.App.Remote
             throw new NotImplementedException();
         }
 
-        public override void Activate()
+        protected override Task StartAsyncInternal(CancellationToken cancellationToken)
         {
-            if(this.ServiceState>= ServiceState.Initiation)
-                return;
             ServiceState = ServiceState.Initiation;
             RegisterCommandProviders();
             SelectBestCommandProvider();
             ServiceState = ServiceState.Active;
+            return Task.CompletedTask;
         }
 
-        public override void Deactivate()
+        protected override Task StopAsyncInternal(CancellationToken cancellationToken)
         {
-            if (this.ServiceState >= ServiceState.Termination)
-                return;
-
             ServiceState = ServiceState.Stoped;
+            return Task.CompletedTask;
         }
 
         public async Task DoCommand(string command, object[] parameters = null)

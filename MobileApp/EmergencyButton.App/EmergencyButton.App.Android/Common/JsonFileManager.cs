@@ -10,6 +10,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using EmergencyButton.App.Service;
+using EmergencyButton.Core.Data;
 using Lazurite.Data;
 using Newtonsoft.Json;
 
@@ -21,6 +22,11 @@ namespace EmergencyButton.App.Droid.Common
     {
         private readonly string _baseDir = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
         private readonly string _ext = ".json";
+
+        public JsonFileManager(DataEncryptor dataEncryptor) : base(dataEncryptor)
+        {
+        }
+
 
         private readonly JsonSerializerSettings JsonSettings = new JsonSerializerSettings
         {
@@ -76,6 +82,7 @@ namespace EmergencyButton.App.Droid.Common
         {
             return File.ReadAllBytes(ResolvePath(key));
         }
+
     }
 
 }

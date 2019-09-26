@@ -8,9 +8,14 @@ namespace EmergencyButton.Core.Data
     /// </summary>
     public class StoredPropertiesManager
     {
-        private static readonly IDataManager DataManager = Singleton.GetService<IDataManager>();
+        private IDataManager DataManager;
 
         private readonly Dictionary<string, object> _store = new Dictionary<string, object>();
+
+        public StoredPropertiesManager(IDataManager dataManager)
+        {
+            DataManager = dataManager;}
+
 
         public virtual T Get<T>(string id, T @default = default(T))
         {

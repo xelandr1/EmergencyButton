@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security;
-using IServiceProvider = EmergencyButton.Core.ComponentModel.Service.IServiceProvider;
 
-namespace EmergencyButton.Core.ComponentModel.Service
+namespace EmergencyButton.App.ComponentModel.Service
 {
     /// <summary>
     ///     Боксинг сервисов песочницы для клиентской стороны

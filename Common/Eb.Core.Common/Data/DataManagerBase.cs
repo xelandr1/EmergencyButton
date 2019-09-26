@@ -10,7 +10,7 @@ namespace Lazurite.Data
 {
     public abstract class DataManagerBase: IDataManager
     {
-        private static readonly DataEncryptor Encryptor = Singleton.GetService<DataEncryptor>();
+        private readonly DataEncryptor _dataEncryptor;
         private static readonly string EncryptedFilesListKey = "encryptedFilesList";
 
         public abstract void Write(string key, byte[] data);
@@ -23,8 +23,9 @@ namespace Lazurite.Data
 
         private List<string> _encryptedFiles = new List<string>();
 
-        public DataManagerBase()
+        public DataManagerBase(DataEncryptor dataEncryptor)
         {
+            _dataEncryptor = dataEncryptor;
             Initialize();
             LoadEncryptedFilesList();
         }
@@ -78,10 +79,10 @@ namespace Lazurite.Data
         public T Get<T>(string key)
         {
             // If program know about type T is required to encryption, then...
-            if (Encryptor.Required(typeof(T)))
+            if (_dataEncryptor.Required(typeof(T)))
             {
                 // If secret key not exist, program tries to load data without decryption
-                if (!Encryptor.IsSecretKeyExist)
+                if (!_dataEncryptor.IsSecretKeyExist)
                 {
                     Logger.Warning(
                         $"Секретный код для сохранения файлов не задан, хотя данные типа [{typeof(T).Name}] должны сохраняться зашифрованными."
@@ -131,7 +132,7 @@ namespace Lazurite.Data
             if (IsFileMarkedAsEncrypted(key))
             {
                 // If secret key not exist...
-                if (!Encryptor.IsSecretKeyExist)
+                if (!_dataEncryptor.IsSecretKeyExist)
                 {
                     // ...program tries to load data without decryption
                     Logger.Warning($"Секретный код для сохранения файлов не задан, хотя файл [{key}] помечен как зашифрованный должны сохраняться зашифрованными."
@@ -162,11 +163,11 @@ namespace Lazurite.Data
                 // ...load without decryption, and then...
                 var data = Load<T>(key, false);
                 var type = data.GetType();
-                var required = Encryptor.Required(type);
+                var required = _dataEncryptor.Required(type);
 
                 // ...if loaded data type is required to encryption, program tries to resave data with encryption
                 // (loaded data type can be not exactly type T, it can be derived from T and marked with [EncryptFileAttribute])
-                if (required && !Encryptor.IsSecretKeyExist)
+                if (required && !_dataEncryptor.IsSecretKeyExist)
                 {
                     Logger.Warning($"Файл [{key}] не был зашифрован, хотя тип [{typeof(T).Name}] это требует. " +
                              "Секретный ключ сохранения файлов не задан, поэтому пересохранить его сейчас в зашифрованном виде невозможно."
@@ -192,8 +193,8 @@ namespace Lazurite.Data
         public void Set<T>(string key, T data)
         {
             var type = data.GetType();
-            var required = Encryptor.Required(type);
-            if (required && !Encryptor.IsSecretKeyExist)
+            var required = _dataEncryptor.Required(type);
+            if (required && !_dataEncryptor.IsSecretKeyExist)
             {
                 Logger.Warning($"Файл [{key}] не был зашифрован, хотя тип [{typeof(T).Name}] это требует. Он будет зашифрован по секретному ключу и пересохранен."
                     , nameof(DataManagerBase));
@@ -209,7 +210,7 @@ namespace Lazurite.Data
 
         private T Load<T>(string key, bool encrypted)
         {
-            return Deserialize<T>(encrypted ? Encryptor.Decrypt(Read(key)) : Read(key));
+            return Deserialize<T>(encrypted ? _dataEncryptor.Decrypt(Read(key)) : Read(key));
         }
 
         private void Save<T>(string key, T data, bool encrypted)
@@ -219,7 +220,7 @@ namespace Lazurite.Data
             else
                 UnmarkFileAsEncrypted(key);
 
-            Write(key, encrypted ? Encryptor.Encrypt(Serialize(data)) : Serialize(data));
+            Write(key, encrypted ? _dataEncryptor.Encrypt(Serialize(data)) : Serialize(data));
         }
 
     }

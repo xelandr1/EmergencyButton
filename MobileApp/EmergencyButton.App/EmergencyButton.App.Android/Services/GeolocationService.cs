@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using EmergencyButton.Core.ComponentModel.Service;
+using EmergencyButton.App.ComponentModel.Service;
 using EmergencyButton.Core.Geolocation;
 using EmergencyButton.Core.Instrumentation;
 using Plugin.Geolocator;
@@ -11,32 +11,31 @@ using Plugin.Geolocator.Abstractions;
 
 namespace EmergencyButton.App.Droid.Services
 {
-    public class GeolocationService : AbstractService, IGeolocationService
+    public class GeolocationService : AbstractHostedService, IGeolocationService
     {
-        public override void Activate()
+        protected override Task StartAsyncInternal(CancellationToken cancellationToken)
         {
             Logger.Information("Activate()", nameof(GeolocationService));
 
-            if (ServiceState > ServiceState.None) return;
             ServiceState = ServiceState.Initiation;
 
             CrossGeolocator.Current.PositionChanged += CrossGeolocator_PositionChanged;
 
             ServiceState = ServiceState.Active;
+            return Task.CompletedTask;
 
         }
 
 
-        public override void Deactivate()
+        protected override Task StopAsyncInternal(CancellationToken cancellationToken)
         {
             Logger.Information("Deactivate()", nameof(DroidPowerManager));
 
-            if (ServiceState >= ServiceState.Termination) return;
             ServiceState = ServiceState.Termination;
 
             CrossGeolocator.Current.PositionChanged -= CrossGeolocator_PositionChanged;
 
-            ServiceState = ServiceState.Stoped;
+            return Task.CompletedTask;
 
         }
 

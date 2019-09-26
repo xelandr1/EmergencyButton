@@ -1,4 +1,4 @@
-﻿namespace EmergencyButton.Core.ComponentModel.Service
+﻿namespace EmergencyButton.App.ComponentModel.Service
 {
     /// <summary>
     ///     состояния сервиса

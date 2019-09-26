@@ -1,5 +1,4 @@
 ﻿using System;
-using EmergencyButton.Core.ComponentModel.Service;
 
 namespace EmergencyButton.App.Droid.EbService
 {

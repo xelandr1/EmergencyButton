@@ -1,21 +1,20 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
+using EmergencyButton.App.ComponentModel.Service;
 using EmergencyButton.Core.ComponentModel.Event;
-using EmergencyButton.Core.ComponentModel.Service;
 using EmergencyButton.Core.Remoting;
 using SimpleRemoteMethods.ClientSide;
 
 namespace EmergencyButton.App.Remote.Http
 {
-    public class HttpRemoteCommandProvider : AbstractService, IRemoteCommandProvider
+    public class HttpRemoteCommandProvider : AbstractHostedService, IRemoteCommandProvider
     {
         public Client _srmClient { get; private set; }
-        public HttpRemoteCommandProvider() { Activate();}
-
-        public override void Activate()
+ 
+        protected override Task StartAsyncInternal(CancellationToken cancellationToken)
         {
-            if (ServiceState>=ServiceState.Initiation)return;
             ServiceState = ServiceState.Initiation;
             var config = new ConnectionConfiguration();
 
@@ -24,6 +23,8 @@ namespace EmergencyButton.App.Remote.Http
             _srmClient.ConnectionError += Client_ConnectionError;
             _srmClient.ConnectionNormal += Client_ConnectionNormal;
             ServiceState = ServiceState.Active;
+            return Task.CompletedTask;
+
         }
 
         private void Client_ConnectionNormal(object sender, SimpleRemoteMethods.ClientSide.Client e)
@@ -37,9 +38,8 @@ namespace EmergencyButton.App.Remote.Http
             SetCurrentTransportLayerMode(TransportLayerMode.Unavailable);
         }
 
-        public override void Deactivate()
+        protected override Task StopAsyncInternal(CancellationToken cancellationToken)
         {
-            if (ServiceState>=ServiceState.Termination) return;
             ServiceState = ServiceState.Termination;
             if (_srmClient != null)
             {
@@ -49,6 +49,7 @@ namespace EmergencyButton.App.Remote.Http
             }
 
             ServiceState = ServiceState.Stoped;
+            return Task.CompletedTask;
 
         }
 

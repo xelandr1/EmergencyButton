@@ -41,13 +41,13 @@ namespace EmergencyButton.App.Droid
 
             try
             {
-                Singleton.Services.GetService<ICurrentContext>().Context = this;
+                //Singleton.Services.GetService<ICurrentContext>().Context = this;
 
-                Singleton.Services.UnRegisterService<IResumeSupportService>();
-                Singleton.Services.RegisterService<IResumeSupportService>(this);
-                Singleton.Services.UnRegisterService<IStub>();
+                //Singleton.Services.UnRegisterService<IResumeSupportService>();
+                //Singleton.Services.RegisterService<IResumeSupportService>(this);
+                //Singleton.Services.UnRegisterService<IStub>();
 
-                Singleton.Services.RegisterService<IStub>(this);
+                //Singleton.Services.RegisterService<IStub>(this);
 
                 TabLayoutResource = Resource.Layout.Tabbar;
                 ToolbarResource = Resource.Layout.Toolbar;

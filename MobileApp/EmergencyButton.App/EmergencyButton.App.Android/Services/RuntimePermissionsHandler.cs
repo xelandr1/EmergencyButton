@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EmergencyButton.App.ComponentModel;
 using EmergencyButton.App.Service;
 using EmergencyButton.Core.Instrumentation;
 using Xamarin.Forms.Platform.Android;

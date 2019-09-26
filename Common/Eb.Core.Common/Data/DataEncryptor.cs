@@ -17,6 +17,8 @@ namespace EmergencyButton.Core.Data
         private static readonly string CheckKeyFileKey = "FileSave_EncryptedSecKeyHash";
         private static readonly string IvKey = "FileSave_Iv";
 
+        private DataManagerBase _dataManager;
+
         private string _secretKey = null;
         private byte[] _iv = null;
 
@@ -145,7 +147,7 @@ namespace EmergencyButton.Core.Data
                 {
                     try
                     {
-                        var manager = Singleton.GetService<DataManagerBase>();
+                        var manager = _dataManager;
 
                         if (!manager.Has(EncryptedSecretKeyKey))
                             throw new CryptographicException("Secret key not exist.");
@@ -180,7 +182,7 @@ namespace EmergencyButton.Core.Data
                 // Encrypt with DPAPI
                 var encryptedSecretKeyBytes = ProtectData(Encoding.UTF8.GetBytes(value));
 
-                var manager = Singleton.GetService<DataManagerBase>();
+                var manager = _dataManager;
 
                 // Write encrypted secret key
                 manager.Write(EncryptedSecretKeyKey, encryptedSecretKeyBytes);
@@ -216,7 +218,7 @@ namespace EmergencyButton.Core.Data
                     }
                 }
 
-                var manager = Singleton.GetService<DataManagerBase>();
+                var manager = _dataManager;
                 if (manager.Has(IvKey))
                 {
                     var iv = manager.Read(IvKey);

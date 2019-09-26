@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using EmergencyButton.App.ComponentModel;
 using EmergencyButton.App.Remote;
 using EmergencyButton.Core.ComponentModel;
 using EmergencyButton.Core.Geolocation;

@@ -36,6 +36,15 @@ namespace EmergencyButton.App.Droid
             RegisterActivityLifecycleCallbacks(this);
         }
 
+        public override void OnTerminate()
+        {
+            base.OnTerminate();
+            Logger.Information("OnTerminate()", nameof(MainApplication));
+
+            UnregisterActivityLifecycleCallbacks(this);
+        }
+
+
         public void OnActivityCreated(Activity activity, Bundle savedInstanceState)
         {
             Logger.Information("OnActivityCreated()"+activity.GetType().Name, nameof(MainApplication));

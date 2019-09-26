@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Security;
 
-namespace EmergencyButton.Core.ComponentModel.Service
+namespace EmergencyButton.App.ComponentModel.Service
 {
     /// <summary>
     ///     Контейнер локальных сервисов

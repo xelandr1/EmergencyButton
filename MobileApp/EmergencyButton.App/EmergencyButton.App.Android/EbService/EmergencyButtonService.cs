@@ -5,11 +5,11 @@ using EmergencyButton.App.Droid.Instrumentation;
 using EmergencyButton.App.Droid.Ipc;
 using EmergencyButton.App.Service;
 using EmergencyButton.Core.Common.Droid.Ipc;
-using EmergencyButton.Core.ComponentModel.Service;
 using System;
 using System.Threading;
 using Android.Graphics;
 using Android.Support.V4.App;
+using EmergencyButton.App.ComponentModel.Service;
 using EmergencyButton.App.Droid.Services;
 using EmergencyButton.Core.Common;
 using EmergencyButton.Core.ComponentModel;
@@ -19,7 +19,7 @@ using Constants = EmergencyButton.App.Droid.Common.Constants;
 namespace EmergencyButton.App.Droid.EbService
 {
     [Service(Exported = false, Enabled = true)]
-    public class EmergencyButtonService : global::Android.App.IntentService, IEmergencyButtonService, IService
+    public class EmergencyButtonService : global::Android.App.IntentService, IEmergencyButtonService
     {
         private readonly IncomingHandler _inHandler = new IncomingHandler();
         private PowerManager.WakeLock _wakelock;

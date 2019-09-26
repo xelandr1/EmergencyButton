@@ -9,11 +9,11 @@ namespace EmergencyButton.Core.Common
     {
         private static IDataManager DataManager
         {
-            get { return Singleton.GetService<IDataManager>(); }
+            get { return _dataManager; }
         } 
         private static string _subsystemId;
         private static string _instanceId;
-
+        private static IDataManager _dataManager;
 
         public static string SubsystemId {
             get
